@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>DVRPC - Congestion Management Process (CMP) 2015</title>
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css">
+    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+	<!-- Load Leaflet from CDN-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="css/esri-leaflet-geocoder.css" />
+    <link rel="stylesheet" href="css/bootstrap-slider.css" />
+    <link rel="stylesheet" href="css/loading.css" />
+    <link rel="stylesheet" href="css/table.css" />
+  <!--  <link rel="stylesheet" href="css/leaflet.label.css" /> -->
+
+    <style>
+        html, body, #map, #sidebar, #container {
+            height: 100%;
+            margin: 0px;
+        }
+        #sidebar {     
+	       border-right: 1px solid #E2E2E2;
+	       background-color:white;
+        }
+		body {
+            padding-top: 50px;
+        }
+        label {
+            font-weight: normal;
+        }
+        .panel-heading a:hover {
+            text-decoration: none;
+        }
+        #loading {
+            position: absolute;
+            width: 220px;
+            height: 19px;
+            top: 50%;
+            left: 50%;
+            margin: -10px 0 0 -110px;
+            z-index: 20001;
+        }
+        .navbar .navbar-brand {
+            font-weight: bold;
+            font-size: 22px;
+            color: white;
+            white-space: nowrap;
+        }
+		.navbar-inverse{
+        background-color:#0074ad;
+		border: none;
+		}
+		.navbar-inverse .navbar-nav > li > a {
+            color: white;
+        }
+        .tt-dropdown-menu {
+            overflow: auto;
+        }
+        .tt-hint, .tt-query {
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        .typeahead-header {
+            margin: 0 5px 5px 5px;
+            padding: 3px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .search-container {
+            width: 250px;
+        }
+        #searchbox {
+            -webkit-border-top-left-radius: 4px;
+            -webkit-border-bottom-left-radius: 4px;
+            -moz-border-top-left-radius: 4px;
+            -moz-border-bottom-left-radius: 4px;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        .modal-header {
+         background-color:;
+        }
+        .modal-title  {
+        color: white;
+        }
+        .close {
+            float: right;
+            font-size: 21px;
+            font-weight: bold;
+            line-height: 1;
+            color: black;
+            text-shadow: 0px 1px 0px rgb(255, 255, 255);
+            opacity: 1;
+        }
+        .panel-primary >.panel-heading {
+        background-color:;
+        color: black;
+        }
+        .panel-primary {
+            border-color: ;
+        }
+        .media{
+        padding: 0px 10px 0px 10px;
+        }
+        h3, .h3{
+        font-size: 16px;
+        font-weight: bold;
+        }
+        .btn-primary {
+        background-color: #333A97;
+        border-color: #333A97;
+        height:35px;
+        }
+        #toolbar{
+        background-color: #FFC709;
+        border-top: 2px solid white;
+        }
+        .leaflet-label {
+        background: rgb(235, 235, 235);
+        background: rgba(235, 235, 235, 0.81);
+        background-clip: padding-box;
+        border-color: #777;
+        border-color: rgba(0,0,0,0.25);
+        border-radius: 4px;
+        border-style: solid;
+        border-width: 4px;
+        color: #111;
+        display: block;
+        font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        padding: 1px 6px;
+        position: absolute;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        pointer-events: none;
+        white-space: nowrap;
+        z-index: 6;
+        }
+        .leaflet-label.leaflet-clickable {
+        cursor: pointer;
+        pointer-events: auto;
+        }
+        .leaflet-label:before,
+        .leaflet-label:after {
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        content: none;
+        position: absolute;
+        top: 5px;
+        }
+        .leaflet-label:before {
+        border-right: 6px solid black;
+        border-right-color: inherit;
+        left: -10px;
+        }
+        .leaflet-label:after {
+        border-left: 6px solid black;
+        border-left-color: inherit;
+        right: -10px;
+        }
+        .leaflet-label-right:before,
+        .leaflet-label-left:after {
+        content: "";
+        }
+
+        .form-control {
+        border-radius: 0px;
+        }
+        .input-group{
+        width:200px;
+        }
+        .leaflet-control-zoom,.leaflet-control-layers {
+        border:none;
+        }
+        .form-control{
+        border-radius:0px;
+        }
+        a.one, a.one:hover, a.one:focus {
+        		color: #0084C8;
+        		text-decoration:underline;
+        		}	
+        .
+        .navbar-inverse .navbar-nav > .dropdown > a .caret {
+            border-top-color: white;
+            border-bottom-color: white;
+        }
+        .labelfield{font-size: 10;
+        		color: black;
+        		margin-bottom: 4px;
+        		.icon{width:35px;
+        }
+        .dropdown > ul> li > a:hover, .dropdown > ul>  li > a:focus {
+            background-color: #0084C8!important;
+            text-decoration: none;
+        }
+        .btn-primary:hover,.btn-primary:focus,.btn-primary:active,.btn-primary.active,.open .dropdown-toggle.btn-primary{
+        	color:#fff;
+        	background-color:#5B6BFC;
+        	border-color:#0084C8
+        }
+        .labelfield{font-size: 10;
+        	color: black;
+        }
+        .panel-default > .panel-heading {
+            background-color: #282828;
+            border-color: black;
+            color: white;
+        }	
+        }
+   /*     a, a:hover, a:focus {
+            color: black;
+            text-decoration: none;
+        }
+    */    
+        .panel-default {
+            border-color: black;
+        }
+        .nav-tabs {
+            border-bottom: 1px solid black;
+        }
+      /*  .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            color: #555;
+            cursor: default;
+            background-color: white;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #000 #000 transparent;
+            -moz-border-top-colors: none;
+            -moz-border-right-colors: none;
+            -moz-border-bottom-colors: none;
+            -moz-border-left-colors: none;
+            border-image: none;
+        } */
+        li.one {
+        margin-left: 35px;
+        font-style: italic;
+        }
+        .panel-default > .panel-heading {
+            background-color: #6FAA7C;
+            border-color: #DDD;
+            color: #333;
+        }
+        .panel-group .panel {
+            margin-top: -11px;
+            overflow: hidden;
+            border-radius: 0px;
+        }
+        .shield {
+            vertical-align: middle;
+        	height: 30px;
+        	width: 33px;
+        	padding-right:5px;
+        }
+        .label {font-size: 20px;
+        	color: black;
+        	margin-left:-10px;
+        	}
+        .nav-tabs > li.active > a,
+        .nav-tabs > li.active > a:hover,
+        .nav-tabs > li.active > a:focus{
+            color: w;
+            background-color: white;  
+        } 	
+        .nav-tabs > li {
+            float: left;
+            margin-bottom: -1px;
+        }
+        #myTab li a { border-color:black;background-color:#0074ad;color:white; }
+        #myTab li.active a {border-bottom-color: transparent; background-color:white; font-weight: bold; color:black; }
+
+        .leaflet-control-zoom,.leaflet-control-layers {
+        border:none;
+        }
+        input[type=range] {
+        -webkit-appearance: none;
+        height:130px;
+        cursor: pointer;
+        }
+         #slidercase {
+            display:block;
+            position: absolute;
+         /*   bottom: 10px;
+            left: 5px;
+            */
+            z-index: 1001;
+            padding: 8px;
+            background: rgba(140, 140, 140, 0.85);
+            cursor: pointer;
+        }
+        #side1 {
+          float: right;
+          width: 100%;
+        }
+        #side2 {
+          float: left;
+          width: 200px;
+          margin-left: -200px;
+        }
+        .checkbox label {
+            font-size: 11px;
+        }
+        .checked_corridor {
+            -webkit-column-count: 2; /* Chrome, Safari, Opera */
+            -webkit-column-gap: 100px; /* Chrome, Safari, Opera */
+            -webkit-column-width: 100px;
+            -moz-column-count: 2; /* Firefox */
+            -moz-column-gap: 40px; /* Firefox */
+            -moz-column-width: 50px;
+            column-count: 2;       
+            column-gap: 10px;
+            column-width: 20px;
+        }
+        .popup {
+            max-width: 300px;
+          /*  font-family: cursive; */
+        }
+        #info-icon {
+            color: #aaa8a8;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        .modal-header {
+            padding: 10px 15px 5px !important;
+            background-color: #24abe2 !important;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            color: #FFF;
+        }
+        .modal-body .nav > li > a {
+            padding: 10px 8px !important;
+        }
+        #reduceTabs {
+            border-bottom: 0px solid black;
+        }  
+        .legend-red {
+            color: #FA3411;
+            font-size: 20px;
+            vertical-align: top;
+        }
+        .legend-orange {
+            color: #FFBA30;
+            font-size: 20px;
+            vertical-align: top;
+        }
+        .legend-blue{
+            color: #00A8DF;
+            font-size: 20px;
+            vertical-align: top;
+        }
+        .legend-green {
+            color: #87BB40;
+            font-size: 20px;
+            vertical-align: top;
+        }
+        a.zoomToCMP:link {color:#333;font-size: 11px;cursor: pointer;}
+        a.zoomToCMP:visited {color:#333;font-size: 11px;cursor: pointer;}
+        a.zoomToCMP:hover {color:#333;font-size: 11px;cursor: pointer;}
+    </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.2.0/respond.js"></script>
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span>
+                <a href="http://www.dvrpc.org" target="_new">
+                    <img class="dvrpclogo" style="margin:10px 0px 0px 20px" src="img/dvrpc_logo_small.png" />
+                </a>
+			    <a href="http://www.dvrpc.org/CongestionManagement/" target="_new">
+                    <img class="dvrpclogo" style="margin:5px 0px 0px 10px" src="img/cmp_banner.png" />
+				 </a>
+            </span>
+        </div>
+		  <ul class="nav navbar-nav navbar-right"> 
+            <button type="button" style=" margin:10px 30px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#dataModal').modal('show'); return false;"><i class="glyphicon glyphicon-download-alt" style="color:#0084C8"></i>&nbsp;&nbsp;<b>Access Data</b></a></button>
+            <button type="button" style=" margin:10px 10px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#HowModal').modal('show'); return false;"><i class="icon-question-sign" style="color:#0084C8"></i>&nbsp;&nbsp;<b>How to Use</b></a></button>          
+            <button type="button" style=" margin:10px 10px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#aboutModal').modal('show'); return false;"><i class="icon-info-sign" style="color:#0084C8"></i>&nbsp;&nbsp;<b>About</b></a></button>
+         </ul>
+    </div>
+	
+    <div class="row" id="container">
+		<div class="col-sm-5 col-lg-5" id="sidebar" style="padding: 10px; overflow: auto;">
+			 <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#layers" data-toggle="tab"><i class="glyphicon glyphicon-road"></i>&nbsp;CMP Corridors</a></li>
+                <li id="PMBtn"><a href="#help" data-toggle="tab"><i class="glyphicon glyphicon-stats"></i>&nbsp;Performance Measures</a></li>
+				<li><a href="#Results" data-toggle="tab" ><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Info</a></li>
+            </ul>
+		<div class="tab-content" style="padding-top: 10px;">
+                <div class="tab-pane active" id="layers">
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div id="overlay-layers" class="panel-collapse collapse in">
+                                   <span class="text-muted"><br>&nbsp;(Click subcorridor name to zoom to it's extent)</span> 
+                                <div class="panel-body legPanel" style="padding: 0px 15px;">
+                                  <h5><B>Pennsylvania Corridors</B></h5>  
+                                    <div class="col-sm-12"> 	
+                                        <div class="checked_corridor">
+                                            <input type="checkbox"  class="checked_all" style="margin-top:0px" checked>&nbsp;Select/Clear All				
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA1" checked><img src='img/PA1.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.134446' , '-75.194426' ),11); return false;">1 - I-276 (PA Turnpike)</a></span> </div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA2" checked><img src='img/PA2.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.069574' , '-75.305552' ),10); return false;">2 - I-476</a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA3" checked><img src='img/PA3.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.031235' , '-75.245402' ),11); return false;">3 - I-76 &amp; I-676</a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA4" checked><img src='img/PA4.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.013267' , '-75.062184' ),11); return false;">4 - I-95</a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA5" checked><img src='img/PA5.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.943069' , '-75.331134' ),11); return false;">5 - US 1</a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA6" checked><img src='img/PA6.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.889125' , '-75.300722' ),11); return false;">6 - US 13/MacDade Blvd/PA 291</a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA7" checked><img src='img/PA7.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.029507' , '-75.574676' ),11); return false;">7 -  US 30 </a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA8"checked><img src='img/PA8.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.083956' , '-75.404767' ),11); return false;">8 - US 202, 322, 30, PA 100</a></span> </div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA9" checked><img src='img/PA9.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.15957' , '-75.492535' ),11); return false;">9 - US 422</a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA10" checked><img src='img/PA10.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.968494' , '-75.297532' ),11); return false;">10 - PA 3 &amp; Center City</a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA11" checked><img src='img/PA11.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.258863' , '-75.38661' ),11); return false;">11 - PA 113 Area</a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA12" checked><img src='img/PA12.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.18919' , '-75.128668' ),11); return false;">12 - PA 132, PA 63, Co. Line Rd </a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA13" checked> <img src='img/PA13.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.207084' , '-74.993097' ),11); return false;">13 - PA 332</a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA14" checked><img src='img/PA14.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.160858' , '-75.207956' ),11); return false;">14 - PA 611 &amp; PA 309</a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA15" checked><img src='img/PA15.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.050975' , '-75.211544' ),11); return false;">15 - Ridge-Lincoln-Cheltenham </a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA16" checked><img src='img/PA16.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.168874' , '-75.66524' ),11); return false;">16 - PA 100 </a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA17" checked><img src='img/NJ7.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.817038' , '-75.763032' ),11); return false;">17 - PA 41 </a></span></div>
+                                        </div>
+                                    </div>  
+								</div>
+
+
+                                <div class="panel-body legPanel" style="padding: 0px 15px;">
+                                    <h5><B>New Jersey Corridors</B></h5>  
+                                        <div class="col-sm-12">
+                                            <div class="checked_corridor">
+                                                <input type="checkbox"  class="checked_all" style="margin-top:0px" checked>&nbsp;Select/Clear All                
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ1" checked><img src='img/NJ1.png'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.162001' , '-74.689797' ),11); return false;">1 - I-295 NJ Turnpike (N) </a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ2" checked><img src='img/NJ2.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.870919' , '-75.052549' ),11); return false;">2 - I-295 NJ Turnpike (S) </a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer"  name="overlayLayers" id="NJ3" checked><img src='img/NJ3.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.773589' , '-75.03804' ),11); return false;"> 3 - AC Expressway/NJ 42 </a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ4" checked><img src='img/NJ4.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.268429' , '-74.695902' ),11); return false;">4 - US 1, US 206</a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ5" checked><img src='img/NJ5.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.856303' , '-75.016361' ),11); return false;">5 - US 30 </a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ6" checked><img src='img/NJ6.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.022392' , '-74.961032' ),11); return false;">  6 - US 130</a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ7" checked><img src='img/NJ7.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.7301' , '-75.179212' ),11); return false;">  7 -  US 322 &amp; Cross Keys Area</a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ8" checked><img src='img/NJ8.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.275538' , '-74.793692' ),11); return false;">  8 - NJ 31</a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ9" checked><img src='img/NJ9.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.232219' , '-74.70532' ),11); return false;">9 - NJ 33</a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ10" checked><img src='img/NJ10.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.970665' , '-74.883859' ),11); return false;">10 - NJ 38 </a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ11" checked><img src='img/NJ11.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.787906' , '-75.110108' ),11); return false;">11 - NJ 41, 45, 47, 55</a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ12" checked><img src='img/NJ12.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.901097' , '-74.953947' ),11); return false;">12 - NJ 70 </a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer"  name="overlayLayers" id="NJ13" checked><img src='img/NJ13.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.92053' , '-74.943051' ),11); return false;">13 - NJ 73 </a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ14" checked><img src='img/NJ14.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.297349' , '-74.595033' ),11); return false;">14 - CR 571</a></span></div>
+                                        </div>
+                                    </div>     
+                                </div>
+                                
+                         <div class="panel-body legPanel" style="padding: 0px 15px;margin-bottom:10px">
+                            <h5 style="background-color:#E0E0E0;height: 20px;padding: 2px;"><B>&nbsp;Corridor Opacity</B></h5>  
+                            <div id="slidercase" class="slidercase">
+                            <input id="slide" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="65" data-slider-orientation="horizontal"> 
+                            </div>
+                            <br> 
+                            <br>        
+                         </div>
+
+                            </div>
+                        </div>
+                    </div>
+        </div>
+        <div class="tab-pane" id="help">
+                   <div class="panel-group">
+                    <div class="panel panel-default">
+                      <div class="panel-collapse collapse in" id="overlay-layers">
+                        <div class="panel-body" style="padding: 0px 15px;">
+                          <div class="radio">
+                            <label><input checked="checked"  data-value="99,99" name="optradio" type="radio" value="0">None</label>
+                          </div>
+                          <h5><B>Reduce Congestion </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw()'></i></h5>
+                          <div class="radio">
+                            <label><input data-value="0,1" name="optradio" type="radio" value="1">Travel Time Index (TTI)</label>
+                          </div>
+                          <div class="radio">
+                            <label><input data-value="2,3" name="optradio" type="radio" value="2">General Peak-Hour Volume/Capacity (V/C) Ratios</label>
+                          </div>
+                          <div class="radio disabled">
+                            <label><input data-value="6,7" name="optradio" type="radio" value="3">Anticipated Growth in V/C using the DVRPC Travel Model </label>
+                          </div>
+                          <h5><B>Increase Accessibility &amp; Mobility </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw2()'></i></h5>
+                          <div class="radio">
+                            <label><input data-value="8,9" name="optradio" type="radio" value="4">Transit Score and Rail Stations</label>
+                          </div>
+                          <div class="radio">
+                            <label><input data-value="10,11" name="optradio" type="radio" value="5">Planning Time Index (PTI)</label>
+                          </div>
+                          <h5><B>Rebuild &amp; Maintain Transportation Infrastructure </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw3()'></i></h5>
+                          <div class="radio">
+                            <label><input data-value="12,13" name="optradio" type="radio" value="6">Core Transportation Network </label>
+                          </div>
+                          <div class="radio">
+                            <label><input data-value="14,15" name="optradio" type="radio" value="7">Existing Transit</label>
+                          </div>
+                          <h5><B>Create a Safer Transportation System </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw4()'></i></h5>
+                          <div class="radio">
+                            <label><input data-value="16,17" name="optradio" type="radio" value="8">Crash Rate</label>
+                          </div>
+                          <h5><B>Create a More Secure Transportation System </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw5()'></i></h5>
+                          <div class="radio">
+                            <label><input data-value="18,19" name="optradio" type="radio" value="9">Important Areas for Transportation Security Planning</label>
+                          </div>
+                          <div class="radio">
+                            <label><input data-value="18,19" name="optradio" type="radio" value="10">Areas of Special Evacuation Concern</label>
+                          </div>
+                          <h5><B>Ensure Transportation Investments Support LRP Principles </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw6()'></i></h5>
+                          <div class="radio">
+                            <label><input data-value="20,21" name="optradio" type="radio" value="11">Low Green Infrastructure Screening Tool Score</label>
+                          </div>
+                          <div class="radio">
+                            <label><input data-value="22,23" name="optradio" type="radio" value="12">Connections 2040 Infill and Redevelopment areas, Emerging Growth areas</label>
+                          </div>
+                          <div class="radio disabled">
+                            <label><input data-value="24,25" name="optradio" type="radio" value="13">Conections 2040 Land Use Centers</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        </div>
+		<div class="tab-pane" id="Results">
+                    <div class="panel-group">
+						<div class="panel panel-default">
+
+							<div id="overlay-layers" class="panel-collapse collapse in" >		
+								<div class="panel-body" style="padding: 20px 0px 0px 0px;">		
+                                    <span id="click_help" class="text-muted">&nbsp;(Click subcorridor or roadway for information)</span> 
+                                    <span id="cmp_info" style="display:none"><h3 style="text-align:center;background-color:#E0E0E0;margin: 0px 25px 0px 25px;"><i class="glyphicon glyphicon-road"></i>&nbsp;CMP Subcorridor Information</h3></span>     
+								    <div id="infosidebar"style="padding:10px"></div>
+                                    <div id="selectedFeatures" style="width: auto;margin: 10px 10px 10px 15px;">&nbsp;</div>			
+								</div>
+						     </div>
+						</div>
+                    </div>
+                </div>
+            </div>			
+		</div>
+		
+        <div class="col-sm-7 col-lg-7" id="map"></div>
+        <div class="loading-panel stat-map" style="display:none;"><div class="spin-item"><div class="item-inner"><div class="item-loader-container"><div class="la-ball-spin-clockwise la-2x"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div></div></div></div>
+  
+  	<div class="modal fade" id="aboutModal">
+		<div class="modal-dialog"style="width:620px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"> <img src="img/cmp.png"/></h4>
+				</div>
+				<div class="modal-body">
+					 <ul id="aboutTabs" class="nav nav-tabs">
+						<li class="active"><a href="#about" data-toggle="tab"><i class="icon-road"></i>&nbsp;About</a></li>
+						  <li><a href="#contact" data-toggle="tab"><i class="icon-envelope"></i>&nbsp;Contact</a></li>   
+						<li><a href="#disclaimer" data-toggle="tab"><i class="icon-exclamation-sign"></i>&nbsp;Disclaimer</a></li>
+					</ul>
+					<div id="aboutTabsContent" class="tab-content" style="padding-top: 10px;">
+						<div class="tab-pane fade active in" id="about">
+							<p>
+								A CMP is a systematic process for managing congestion that provides information on transportation system performance.
+								It recommends a range of strategies to minimize congestion and enhance the mobility of people and goods.
+								These multimodal strategies include, but are not limited to, operational improvements, travel demand management,
+								policy approaches, and additions to capacity. The CMP advances the goals of the DVRPC <a href="http://www.dvrpc.org/LongRangePlan/" target="_new" class="one">Long-Range Plan</a> and strengthens
+								the connection between the Plan and the <a href="http://www.dvrpc.org/TIP/" target="_new" class="one">Transportation Improvement Program (TIP)</a>.<br/>
+								<br/>
+								The CMP, as included in current federal transportation regulations, enhances the existing concept of a Congestion Management
+								System (CMS) with emphasis on being an ongoing cycle and other refinements. It identifies congested corridors and multimodal
+								strategies to mitigate the congestion. Where more single-occupancy vehicle capacity is appropriate, the CMP includes
+								supplemental strategies to reduce travel demand and get the most value from the investment. It completes its cycle evaluating
+								the effectiveness of transportation improvements, coordinating with other planning processes, and providing updated analysis of the
+								performance of the transportation system as it goes back around.<br/>		
+							</p>
+							 <a class="one" href="http://www.dvrpc.org/CongestionManagement/" target="_new">Click Here</a>  to read more about the CMP and view the latest publications.
+							 <br><font color='red' size='1px'><i>Data Source: 2015 CMP Corridors</i></font></br>
+							  <font color='red' size='1px'><i>Last Updated: January 2017</i></font></br>
+						</div>
+						<div class="tab-pane fade" id="disclaimer">	
+								<p>This web page is a public resource of general information. The Delaware Valley Regional Planning Commission (DVRPC) makes no warranty, 
+								representation, or guarantee as to the content, sequence, accuracy, timeliness, or completeness of any of the spatial data or database 
+								information provided herein. DVRPC and partner state, local, and other agencies shall assume no liability for errors, omissions, or 
+								inaccuracies in the information provided regardless of how caused; or any decision made or action taken or not taken by any person relying 
+								on any information or data furnished within.</p>
+						</div>
+						 <div class="tab-pane fade" id="contact">
+                            <p>
+                            <strong>Zoe Neaderland, AICP</strong><br/>
+                            Manager <br/>
+                            Office of Transportation Safety and Congestion Management<br/>
+                            Phone: 215-238-2839 <br/>
+                            <a class="one" href="mailto:zneaderland@dvrpc.org">zneaderland@dvrpc.org </a> 
+                            </p>		
+						</div>
+					</div>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="HowModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#0074ad">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                     <h4 class="modal-title" ><strong>How to Use</strong> </h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                    - Click on the map to identify and view CMP subcorridor and segmented roadway information.<br><br>
+                    - If the area you select includes overlapping subcorridors, those subcorrdiors will be listed in the results tab.<br><br>
+                    - Click "Results" to view detailed information about individual subcorridors amd roadway segments, including CMP strategies and other pertinent information.<br><br>
+                    - Clicking "Zoom To Subcorridor" will automatically zoom to the full extent of that selected subcorridor. 
+                    </p>
+                    <h4>Map Navigation:</h4>
+                    <p>- Click-and-drag on the map to pan, or use the mouse wheel to zoom in/out.  You may also use the +/- button controls to zoom in/out of the map.
+                    Double-clicking on an area will also zoom in. If you hold down the <B>Shift Key </B>and drag a <Font color="red">box </Font>on the map, it will zoom to the area drawn.<br><br> 
+                    - Use the menu on the left to turn on/off selected corridors by state. You can turn all of the corridors on/off quickly by clicking on Select/Clear All.<br><br>
+                    - Use the 'Corridor Opacity' slider bar <img id="popup" src="img/opacity.png" title="opacity slider"/> to decrease/increase the transparency level of the CMP corridors.<br><br>
+                    - Click the <b>zoom to region</b> button <img src="css/img/region.png" title="zoom to region" style="" /> to zoom to the initial map extent. 
+                    </p>
+        
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="dataModal">
+        <div class="modal-dialog modal-lg" style="width: 665px;">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#0074ad">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                     <h4 class="modal-title" ><strong>Access our data</strong> </h4>
+            </div>
+                    <div class="modal-body">
+                        <div class="clearfix">
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <b>Download Data - </b> Directly download the CMP Corrdior and Performance Measures layers from the links below.
+                                    <pre data-initialized="true"><code><a href="http://dvrpc-dvrpcgis.opendata.arcgis.com/datasets?q=cmp&sort_by=relevance&geometry=-79.253%2C39.466%2C-69.283%2C40.726" target="_new">http://dvrpc-dvrpcgis.opendata.arcgis.com/datasets?q=cmp&sort_by=relevance&geometry=-79.253%2C39.466%2C-69.283%2C40.726</a></code></pre>
+                                </div>
+                                <div class="col-xs-4 text-right"><img src="img/ags_connect.png" alt=""></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <b>ArcGIS for Desktop - </b> Copy and paste the URL below to access our ArcGIS Server map services.
+                                    <pre data-initialized="true"><code>http://arcgis.dvrpc.org/arcgis/rest/services</code></pre>
+                                    - CMP Corridors are located in the  'Transportaion' folder and <br> Performance Measures are located in the 'AppData' folder.
+                                </div>
+                                <div class="col-xs-4 text-right"><img src="http://www.dvrpc.org/webmaps/img/dataportal/Transportation_service.png" alt=""></div>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-body -->
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="Reduce">
+        <div class="modal-dialog modal-lg" style="width: 875px;">
+            <div class="modal-content" style="overflow:hidden">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title modal-legend">Reduce Congestion</h4>
+                    <p>Congestion has a significant impact on a region’s economic competitiveness, since people and goods sitting in traffic equates to money lost. In 2012, the Greater Philadelphia region experienced 156 million hours of travel delay, which ranks seventh nationally. This equates to over 75 million gallons of excess fuel consumed and an annual cost of more than $3.4 billion due to sitting in congestion. Reducing congestion has traditionally been accomplished by expanding network capacity. However, repeated experience has shown that new capacity quickly fills up and entices expanded development ever further out. Other strategies, such as making the transportation system more efficient, reducing demand by instituting transportation demand management strategies, and providing alternatives to the single-occupant vehicle can also accomplish the same goal. </p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                          <ul id="reduceTabs" class="nav nav-tabs nav-stacked nav-left">
+                              <li class="active">
+                                  <a href="#map" data-target="#Travel" role="tab" data-toggle="tab">Travel Time Index (TTI)</a>
+                              </li>
+                              <li>
+                                  <a href="#map" data-target="#VC" role="tab" data-toggle="tab" >General Peak-Hour Volume/Capacity (V/C) Ratios</a>
+                              </li>
+                              <li>
+                                  <a href="#map" data-target="#Growth" role="tab" data-toggle="tab">High Anticipated Growth in V/C</a>
+                              </li>   
+                          </ul>
+                        </div>
+                        <div class="col-xs-8">
+                            <div id="EXTODTabsContent" class="tab-content">
+                                <div class="tab-pane fade active in" id="Travel">
+                                    <h4 class="modal-title" style="color:black;font-weight:bold">Travel Time Index (TTI)</h4>
+                                    <p>TTI measures congestion by comparing the average travel time for a segment of road during the peak hour (defined as 5-6 PM) to the free-flow travel time for the same segment.  A TTI of 1.5 indicates that the travel time is, on average, 50 percent longer during the peak hour. For example, a trip that would take 20 minutes under free-flow conditions would take 30 minutes during the peak hour. It is normal and appropriate for TTI to increase during peak hours.
+                                    <br>            
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Peak Hour TTI, 5-6 PM, all weekdays in 2013)</i>
+                                        <ul>
+                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than 1.5 (seriously congested)</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-orange"></i> Medium (0.5) = 1.2 - 1.5 (busy as expected at peak hour)</li>
+                                        </ul>
+                                    All of the measures to Reduce Congestion can combine to total a maximum of 2 points per link.<br><br>
+                                    <i><b>Source:</b> University of Maryland Center for Advanced Transportation Technology (CATT) Laboratory Vehicle Probe Project (VPP) Suite, DVRPC. </i>
+
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="VC">
+                                    <h4 class="modal-title" style="color:black">General Peak-Hour Volume/Capacity (V/C) Ratios</h4>
+                                    <p>V/C ratio is a way to estimate congestion by comparing use of a segment of road with road capacity. Peak-hour V/C ratios were calculated using 5-6 PM hourly counts from the DVRPC traffic count database. Capacity was estimated for each segment based on the Highway Capacity Manual as incorporated in the DVRPC travel model.  V/C ratios greater than or equal to 0.85 generally correspond to LOS E or F, although that varies by functional class of road.<font style="color:red">V/C ratios calculated for the CMP are only suitable for regional planning purposes, not for engineering.</font> 
+                                    </p>    
+                                   <p><b>Scoring</b><i>  (Peak Hour V/C Ratios)</i>
+                                        <ul>
+                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than or equal to 1.0 in urban areas</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than or equal to 0.85 in rural/suburban areas</li>
+                                        </ul>
+                                    All of the measures to Reduce Congestion can combine to total a maximum of 2 points per link.<br><br>
+                                    <i><b>Source:</b> DVRPC. </i>
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="Growth">
+                                    <h4 class="modal-title" style="color:black">Anticipated Growth in V/C using the DVRPC Travel Model </h4>
+                                    <p>This measure indicates where congestion will likely increase in the future.  It gives added weight to such locations if there already seems to be some congestion in the base year model (>.5 V/C).<br><br>
+                                    The analysis uses the 2010 and 2040 DVRPC travel model simulations.  The 2040 model uses demographic forecasts and projects already approved for funding.  This analysis provides indications as a regional model is not intended to provide precise simulated traffic by link.  Accuracy at the link level was estimated at +/- 15%.<br><br>
+                                    The 5-6 PM V/C ratio by link in the 2010 and 2040 models were compared.  Only links with two or more times the range of accuracy (30%) were considered to have an increase in congestion.<br><br>
+                                    The mapping reflects minor inaccuracies that can occur with transfer of the existing model data to GIS, a matter that will be resolved in the next model.
+                                    <font style="color:red">Growth in congestion from this analysis is only suitable for regional planning purposes, not for engineering.</font> 
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Anticipated Growth in V/C in the 2010-2040 Peak-Period Travel Models, 5-6 PM, weekdays)</i>
+                                        <ul>
+                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = 2010 V/C ratio of 0.5 or greater AND 30% or greater change in the peak period V/C ratio from 2010 to 2040</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-orange"></i> Medium (0.5) = 30% or greater change in the peak period V/C ratio from 2010 to 2040</li>
+                                        </ul>
+                                    All of the measures to Reduce Congestion can combine to total a maximum of 2 points per link.<br><br>
+                                    <i><b>Source:</b> DVRPC. </i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal --> 
+<!-- end Category Modal -->
+
+<!-- start Category Modal -->
+    <div class="modal fade" id="Increase">
+        <div class="modal-dialog modal-lg" style="width: 875px;">
+            <div class="modal-content" style="overflow:hidden">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title modal-legend">Increase Accessibility & Mobility</h4>
+                    <p>Accessibility refers to the ability to reach desired destinations within the region, and mobility refers to the movement of people and goods. Mobility is heightened when the transportation system is multimodal and provides connections between various modes. The ability to reach destinations throughout the region is a challenge for many members of society who do not have access to an automobile.  This is a growing concern due to the increase in demand for local transit in suburban areas for low income, older persons, and persons with disabilities. There is a critical geographic mismatch between employment centers offering entry-level service sector jobs–which are predominantly located in growing suburbs–and workers who primarily reside in the region’s inner cities and older suburbs. Providing alternative modes to the automobile is crucial so that everyone in the region can enjoy mobility. </p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                          <ul id="reduceTabs" class="nav nav-tabs nav-stacked nav-left">
+                              <li class="active">
+                                  <a href="#map" data-target="#Transit" role="tab" data-toggle="tab">Transit Score and Rail Stations</a>
+                              </li>
+                              <li>
+                                  <a href="#map" data-target="#Planning" role="tab" data-toggle="tab" >Planning Time Index (PTI)</a>
+                              </li>  
+                          </ul>
+                        </div>
+                        <div class="col-xs-8">
+                            <div id="EXTODTabsContent" class="tab-content">
+                                <div class="tab-pane fade active in" id="Transit">
+                                    <h4 class="modal-title" style="color:black;font-weight:bold">Transit Score and Rail Stations</h4>
+                                    <p>The Transit Score assesses the appropriateness of various types and intensities of transit service. It considered factors including densities of population, jobs, and 0-car households. Scores were classified into five categories (from ‘low’ to ‘high’). For more information, see<a href="http://www.dvrpc.org/Products/07005/" target="_new"> Creating a Regional Transit Score Protocol</a>.<br>
+                                    Rail stations, especially in suburban or rural areas, are important gathering points for people to use various types of transit.  They are included even if not captured by the Transit Score analysis.             
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Transit Score and Rail Stations)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-red"></i> Road segments in traffic analysis zones (TAZs) with high or medium-high transit scores received one point.  Road segments within a 1-mile buffer of a rail stations received one point. All of the measures to Increase Accessibility and Mobility can combine to total a maximum of 2 points per link.<br><br>
+                                    All of the measures to Reduce Congestion can combine to total a maximum of 2 points per link.<br><br>
+                                    <i><b>Source:</b> DVRPC, Amtrak, NJ Transit, PATCO, SEPTA. </i>
+
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="Planning">
+                                    <h4 class="modal-title" style="color:black">Planning Time Index (PTI)</h4>
+                                    <p>PTI measures roadway reliability by comparing the 95th percentile travel time for a segment of road to the free-flow travel time for the same segment.  A PTI of 2.0 means that for a trip that takes 20 minutes under free-flow conditions, a traveler should budget a total of 40 minutes to ensure on-time arrival 95% of the time. It is normal and appropriate for PTI to increase somewhat during peak hours.
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Peak Hour PTI, 5-6 PM, all weekdays in 2013)</i>
+                                        <ul>
+                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than 3 (seriously unreliable)</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-orange"></i> Medium-High (0.5) = 2 - 3 (moderately unreliable)</li>
+                                        </ul>
+                                    All of the measures to Increase Accessibility and Mobility can combine to total a maximum of 2 points per link.<br><br>
+                                    <i><b>Source:</b> University of Maryland Center for Advanced Transportation Technology (CATT) Laboratory Vehicle Probe Project Suite, DVRPC.</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal --> 
+<!-- end Category Modal -->
+
+<!-- start Category Modal -->
+    <div class="modal fade" id="Rebuild">
+        <div class="modal-dialog modal-lg" style="width: 875px;">
+            <div class="modal-content" style="overflow:hidden">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title modal-legend">Rebuild & Maintain Transportation Infrastructure</h4>
+                    <p>Our transportation system is both extensive and old. Pennsylvania has the highest number of structurally deficient state-maintained bridges in the nation, and 31 percent of the region’s state-maintained lane miles of pavement are in poor condition. SEPTA has rail bridges that are a century old, substations and signals from the 1930s, and trains from the 1970s. The rebuilding of the existing network of roads, transit lines, and other transportation facilities is the focus for transportation investments moving forward at the national, state, and regional level. We must continue to prioritize projects based on quantitative data to ensure that funds are spent efficiently and effectively. We must also plan for the future and preserve vital right of ways so that the system can expand. Utilizing abandoned rail lines as trails in the interim is one way in which key corridors can be preserved for future use. </p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                          <ul id="reduceTabs" class="nav nav-tabs nav-stacked nav-left">
+                              <li class="active">
+                                  <a href="#map" data-target="#Core" role="tab" data-toggle="tab">Core Transportation Network </a>
+                              </li>
+                              <li>
+                                  <a href="#map" data-target="#Existing" role="tab" data-toggle="tab" >Existing Transit </a>
+                              </li>  
+                          </ul>
+                        </div>
+                        <div class="col-xs-8">
+                            <div id="EXTODTabsContent" class="tab-content">
+                                <div class="tab-pane fade active in" id="Core">
+                                    <h4 class="modal-title" style="color:black;font-weight:bold">Core Transportation Network </h4>
+                                    <p>Rebuilding and maintaining the region’s core network of transportation infrastructure is a key goal of the Long-Range Plan. This measure identifies all road links on the Enhanced National Highway System (NHS) including principal arterials; NHS connectors; existing passenger rail (including Amtrak); existing freight rail lines; major freight facilities including major rail yards, rail-truck intermodal yards, and ports (one-mile buffer); and the Philadelphia International Airport (one-mile buffer). 
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Core Transportation Network)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-blue"></i> Each of the above items received 0.5 points. The measures to Rebuild and Maintain Transportation Infrastructure can combine to total a maximum of 1 point per link.<br><br>
+                                    <i><b>Source:</b> DVRPC.</i>
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="Existing">
+                                    <h4 class="modal-title" style="color:black">Existing Transit</h4>
+                                    <p>Roads with bus or trolley service, which are essential infrastructure for transit riders, were identified. “Substantial service” was defined as bus or trolley routes making three or more runs during the 5-6 PM peak hour in urban locations, or two or more runs in suburban locations. 
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Existing Transit)</i>
+                                        <ul>
+                                          <li><i class="glyphicon glyphicon-minus legend-blue"></i> High (1) = Road links with substantial transit service</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-green"></i> Medium (0.5) = Road links with any transit service</li>
+                                        </ul>
+                                    The measures to Rebuild and Maintain Transportation Infrastructure can combine to total a maximum of 1 point per link.<br><br>
+                                    <i><b>Source:</b> DVRPC, Amtrak, NJ Transit, PATCO, SEPTA.</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal --> 
+<!-- end Category Modal -->
+
+<!-- start Category Modal -->
+    <div class="modal fade" id="Crash">
+        <div class="modal-dialog modal-lg" style="width: 875px;">
+            <div class="modal-content" style="overflow:hidden">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title modal-legend">Create a Safer Transportation System</h4>
+                    <p>The region’s Transportation Safety Action Plan focuses on reducing crashes and fatalities on the regional roadway system by providing a roadmap for effective collaboration and coordination among safety professionals and stakeholders. Strategies for advancing this goal are detailed in agreed-upon key emphasis areas, which focus on various safety issues, including: aggressive driving, impaired driving, roadway departure crashes, and seatbelt use. The Transportation Safety Action Plan is a data-driven living document that is coordinated with New Jersey’s and Pennsylvania’s statewide safety plans. Pedestrian fatality rates are higher than the national average in both New Jersey and Pennsylvania, and in the DVRPC region. Both states are current FHWA Pedestrian Safety Focus States, and Philadelphia is a Focus City. Ensuring pedestrian safety is one of seven key emphasis areas identified in the Transportation Safety Action Plan.</p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                          <ul id="reduceTabs" class="nav nav-tabs nav-stacked nav-left">
+                              <li class="active">
+                                  <a href="#map" data-target="#Crash" role="tab" data-toggle="tab">Crash Rate </a>
+                              </li>
+                          </ul>
+                        </div>
+                        <div class="col-xs-8">
+                            <div id="EXTODTabsContent" class="tab-content">
+                                <div class="tab-pane fade active in" id="Crash">
+                                    <h4 class="modal-title" style="color:black;font-weight:bold">Crash Rate </h4>
+                                    <p>This measure identified road segments with a high crash rate compared to the rate for that functional class of road.  Roads in NJ or PA were compared to ones in the Delaware Valley counties in that state.  To focus on where crashes would cause the most congestion, the results were refined with where the V/C ratio was greater than or equal to 0.5, other than on interstates.  Results on interstate highways were not further refined because crashes there affect so many people. 
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Crash Rate, 2013)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-red"></i> Road segments where the crash rate was two or more times the rate for that functional class in that state’s part of the DVRPC region AND where the V/C ratio was greater than or equal to 0.5 received 1 point. Segments on interstate routes received one point if the crash rate was two or more times the rate for that functional class in that state’s part of the DVRPC region, regardless of V/C ratio.<br><br>
+                                    <i><b>Source:</b> NJDOT, PennDOT.</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal --> 
+<!-- end Category Modal -->
+
+<!-- start Category Modal -->
+    <div class="modal fade" id="Secure">
+        <div class="modal-dialog modal-lg" style="width: 875px;">
+            <div class="modal-content" style="overflow:hidden">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title modal-legend">Create a More Secure Transportation System</h4>
+                    <p>There has been an increased national focus on security since the events of September 11, 2001, which established a larger role for MPOs in this area. One goal of this effort is to explore ways that MPOs can play a part in security planning. DVRPC researches and communicates appropriate security efforts of our partners. DVRPC fulfills its classic role of facilitating the exchange of ideas and resource sharing to build upon existing programs to further security efforts in the region.</p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                          <ul id="reduceTabs" class="nav nav-tabs nav-stacked nav-left">
+                              <li class="active">
+                                  <a href="#map" data-target="#Security" role="tab" data-toggle="tab">Important Areas for Transportation Security Planning</a>
+                              </li>
+                              <li>
+                                  <a href="#map" data-target="#Concern" role="tab" data-toggle="tab" >Areas of Special Evacuation Concern </a>
+                              </li>  
+                          </ul>
+                        </div>
+                        <div class="col-xs-8">
+                            <div id="EXTODTabsContent" class="tab-content">
+                                <div class="tab-pane fade active in" id="Security">
+                                    <h4 class="modal-title" style="color:black;font-weight:bold">Important Areas for Transportation Security Planning </h4>
+                                    <p>This measure helps identify areas of the network where transportation preparedness for major events is most important.  These are often events that call for complex interregional cooperation.  The measure was developed with input from regional security agencies. 
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Transportation Security)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-red"></i> Road links within a mile of the region’s most heavily-used bridges, passenger transit stations, and the general location of the largest military bases in the region, as well as road links within nuclear power plant evacuation zones received half a point. <br>
+                                    The measures to Create a More Secure Transportation System can combine to total a maximum of 1 point per link.<br><br>
+                                    <i><b>Source:</b> DVRPC.</i>
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="Concern">
+                                    <h4 class="modal-title" style="color:black">Areas of Special Evacuation Concern</h4>
+                                    <p>This measure identifies places where there are potential population evacuation issues. It started with Traffic Analysis Zones (TAZs) where the population or employment densities are two or more times the regional average. Locations where there are extremely large gatherings are also evacuation concerns. The measure was developed with input from regional security agencies.  
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Special Evacuation Concern)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-red"></i> Road links within TAZs where the population or employment densities are two or more times the regional average received half a point. Road links within one mile of the stadium complex or the Philadelphia, Chester, or Camden waterfront attractions received half a point. <br><br>
+                                    The measures to Create a More Secure Transportation System can combine to total a maximum of 1 point per link.<br><br>
+                                    <i><b>Source:</b> DVRPC.</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal --> 
+<!-- end Category Modal -->
+
+ <div class="modal fade" id="Support">
+        <div class="modal-dialog modal-lg" style="width: 875px;">
+            <div class="modal-content" style="overflow:hidden">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title modal-legend">Ensure Transportation Investments Support LRP Principles</h4>
+                    <p>Transportation projects should support the four core plan principles of managing growth and protecting the environment; creating livable communities; building the economy; and establishing a modern, multimodal transportation system. In particular, investments should serve areas that are either already developed or designated as appropriate for future growth, encourage growth and reinvestment in the region’s Centers, have limited environmental impact, and support key economic sectors. Potential projects are evaluated to make sure that they help achieve the key principles outlined in the Plan.</p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                          <ul id="reduceTabs" class="nav nav-tabs nav-stacked nav-left">
+                              <li class="active">
+                                  <a href="#map" data-target="#Green" role="tab" data-toggle="tab">Low Green Infrastructure Screening Tool score (less harm to environment)</a>
+                              </li>
+                              <li>
+                                  <a href="#map" data-target="#Infill" role="tab" data-toggle="tab">Connections 2040 Infill and Redevelopment areas, Emerging Growth areas</a>
+                              </li>
+                               <li>
+                                  <a href="#map" data-target="#Centers" role="tab" data-toggle="tab" >Connections 2040 Land Use Centers</a>
+                              </li>   
+                          </ul>
+                        </div>
+                        <div class="col-xs-8">
+                            <div id="EXTODTabsContent" class="tab-content">
+                                <div class="tab-pane fade active in" id="Green">
+                                    <h4 class="modal-title" style="color:black;font-weight:bold">Low Green Infrastructure Screening Tool score (less harm to environment)</h4>
+                                    <p>The Green Infrastructure Screening Tool (GIST) was developed to analyze the environmental impact of transportation projects for the Long-Range Plan.  It incorporates a wide range of environmental factors. This measure was used to identify road segments in areas where investment will likely have fewer environmental impacts.          
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Low GIST score))</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-blue"></i> Road links within the lowest impact range (0-2) of GIST scores received half a point. All of the measures to Ensure Transportation Investments Support LRP Principles can combine to total a maximum of 1 point per link.<br><br>
+                                    <i><b>Source:</b> DVRPC. </i>
+
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="Infill">
+                                    <h4 class="modal-title" style="color:black">Connections 2040 Infill and Redevelopment areas, Emerging Growth areas</h4>
+                                    <p>This measure identifies road links within Infill and Redevelopment areas, and Emerging Growth areas from the Connections 2040 Long-Range Plan. After Land Use Centers, Infill and Redevelopment areas, followed by Emerging Growth area, are the priorities for investment.
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Infill and Redevelopment areas, Emerging Growth areas)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-blue"></i> Road links within Infill and Redevelopment areas, and Emerging Growth areas received half a point. All of the measures to Ensure Transportation Investments Support LRP Principles can combine to total a maximum of 1 point per link. <br><br>
+                                    <i><b>Source:</b> DVRPC. </i>
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="Centers">
+                                    <h4 class="modal-title" style="color:black">Connections 2040 Land Use Centers</h4>
+                                    <p>This measure identifies road links within Land Use Centers from the Connections 2040 Long-Range Plan. Centers are the highest priority areas for investment in the regional transportation network.   
+                                    </p>    
+                                   <p><b>Scoring</b><i>  (Land Use Centers)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-blue"></i> Road links within Land Use Centers received half a point. All of the measures to Ensure Transportation Investments Support LRP Principles can combine to total a maximum of 1 point per link.<br><br>
+                                    <i><b>Source:</b> DVRPC. </i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal --> 
+<!-- end Category Modal -->
+
+    <div class="modal fade" id="PMModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#0074ad">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                     <h4 class="modal-title" ><strong>Performance Measures</strong> </h4>
+                </div>
+
+                <div class="modal-body">
+                  <div class="clearfix">
+                    <p><h3 style="color:#494949;">- Zoom in to desired location before viewing Performance Measure roadway layers </h3>
+                    <h3 style="color:#494949;">- Toggle on/off CMP corridors if you wish to only view Performance Measure layers or use the opacity slider bar  <img id="popup" src="img/opacity.png" title="opacity slider"/> to decrease/increase the transparency level of the CMP corridors.
+                    </h3>
+                    </p>
+                  </div> 
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Load Esri Leaflet from CDN -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script> 
+  <script type="text/javascript" src="https://unpkg.com/esri-leaflet@2.0.7"></script>
+ <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0-beta.8/esri-leaflet.js"></script> -->
+
+         <!-- Load Esri Leaflet from CDN -->
+
+	<script type="text/javascript" src="js/geojson-utils.js"></script>
+	<script type="text/javascript" src="js/leaflet.viewcenter.js"></script>
+	<script type="text/javascript" src="js/leaflet-providers.js"></script> 
+	<script type="text/javascript" src="js/esri-leaflet-geocoder.js"></script>
+	<script type="text/javascript" src="js/bootstrap-slider.js"></script>
+	<script type="text/javascript" src="js/numeral.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+
+  </body>
+</html>

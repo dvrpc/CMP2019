@@ -1,0 +1,66 @@
+/* ------------------
+ styling for the tables 
+   ------------------   */
+  #pm_info{
+  border-collapse: collapse;
+  text-align: center;
+  width: 92%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left:18px;
+}
+ #crashtable{
+  border-collapse: collapse;
+  text-align: center;
+  width: 92%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left:18px;
+}
+th {
+    text-align: center;
+    font-weight: normal;
+    font-size: 80%;
+}
+td {
+  font-weight: bold;
+  font-size: 80%;
+}   
+ #crashtable .odd
+{
+  background:#ededed; 
+  border: 1px solid #bdbdbd;
+}
+#crashtable .even
+{
+  border-right: 1px solid #bdbdbd;
+}
+
+ #crashtable .odd th
+{ 
+  padding: 4px;
+  border-bottom: 1px solid #bdbdbd;
+  border-right: 1px solid #bdbdbd;
+  border-left: 1px solid #bdbdbd;
+}
+
+ #crashtable .odd td
+{
+  border: 1px solid #bdbdbd;
+  padding: 2px;
+  
+}
+
+ #crashtable .even th
+{ 
+  padding: 4px;
+  border-bottom: 1px solid #bdbdbd;
+  border-right: 1px solid #bdbdbd;
+  border-left: 1px solid #bdbdbd;
+}
+
+ #crashtable .even td
+{
+  border: 1px solid #bdbdbd;
+  padding: 2px;
+}
