@@ -164,11 +164,11 @@ var Mapbox_Imagery = L.tileLayer(
     'https://api.mapbox.com/styles/v1/crvanpollard/cimpi6q3l00geahm71yhzxjek/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY3J2YW5wb2xsYXJkIiwiYSI6Ii00ZklVS28ifQ.Ht4KwAM3ZUjo1dT2Erskgg', {
         tileSize: 512,
         zoomOffset: -1,
-        attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
 
-var CartoDB_Positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+var CartoDB_Positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">CartoDB</a>',
     subdomains: 'abcd',
     maxZoom: 19
 });
@@ -186,7 +186,7 @@ $('input[type=radio][name=optradio]').on('change', function() {
     var layer_ids = $(this).attr('data-value').split(',');
     var layers = $(this).attr('data-value');
     cmp_PNT = L.esri.dynamicMapLayer({
-        url: 'http://arcgis.dvrpc.org/arcgis/rest/services/AppData/CMP_Performance/MapServer',
+        url: 'https://arcgis.dvrpc.org/arcgis/rest/services/AppData/CMP_Performance/MapServer',
         layers: [layer_ids[0], layer_ids[1]]
     })
     //add new tiles to overlay group
@@ -206,7 +206,7 @@ function checkIfLoaded() {
 var identifiedFeature;
 var pane = document.getElementById('selectedFeatures');
 var cmp_PNT_ID = L.esri.dynamicMapLayer({
-    url: 'http://arcgis.dvrpc.org/arcgis/rest/services/AppData/CMP_Performance/MapServer'
+    url: 'https://arcgis.dvrpc.org/arcgis/rest/services/AppData/CMP_Performance/MapServer'
 });
 
 var layers_pm_id = ('top:98,99');
@@ -230,7 +230,7 @@ map.on('click', function(e) {
                     'Functional Classification: <b>' + (props['Functional Classification']) + '</b>' +
                     '<br>AADT: <b>' + numeral(props.AADT).format('0,0') + '</b>' +
                     '<br>Lanes: <b>' + (props.Lanes) + '</b></div>' +
-                    '<a href="http://maps.google.com/maps?q=&layer=c&cbll=' + e.latlng.lat + ', ' + e.latlng.lng +'&cbp=" target="_new">Launch Google Streetview near this location</a>'+
+                    '<a href="https://maps.google.com/maps?q=&layer=c&cbll=' + e.latlng.lat + ', ' + e.latlng.lng +'&cbp=" target="_new">Launch Google Streetview near this location</a>'+
                     '<table id="crashtable">' +
                     '<tbody>' +
                     '<tr class="odd">' +
@@ -684,7 +684,7 @@ function createView(layer) {
     var props = layer.feature.properties;
     var info = '<h4 style="color:white;background-color:' + (props.BANCOLOR) + '"><div class="label"><img class="shield" src="' + (props.SHIELD) + ' ">' + (props.NAME) + '</div></h4>' + "<div class='labelfield'><b>Subcorridor ID/Name: </b>" + (props.CMP_ID) + (props.SUB_ID) + " - " + (props.SUBNAME) + "<br>" + "<div class='labelfield'><b>Priority Subcorridor: </b>" + (props.PRIORITY) + "</div>";
 
-    var content = '<img style="margin:0px 0px 5px 0px" src="http://www.dvrpc.org/asp/TIPsearch/2015/PA/img/document.png"/>&nbsp; - <a class="one" href="' + (props.REPORT) + '" target="_blank"> ' + "View Subcorridor Information" + "</a><br>" +
+    var content = '<img style="margin:0px 0px 5px 0px" src="https://www.dvrpc.org/asp/TIPsearch/2015/PA/img/document.png"/>&nbsp; - <a class="one" href="' + (props.REPORT) + '" target="_blank"> ' + "View Subcorridor Information" + "</a><br>" +
         //  +'<a href="#" class="one" onclick="map.setView(new L.LatLng( ' + (props.LAT)+ ' , ' + (props.LONG) + ' ),12);">'
         //    +'Zoom to' + '</a>'
         '<a href="#" id="zoomToBtn" class="btn btn-primary" onclick="map.setView(new L.LatLng( ' + (props.LAT) + ' , ' + (props.LONG) + ' ),12); return false;">Zoom To Subcorridor</a>' + "</div>" + "<br></br>";
