@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>DVRPC - Congestion Management Process (CMP) 2015</title>
+    <title>DVRPC - Congestion Management Process (CMP) 2019</title>
 
     <!-- Core CSS -->
     <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
@@ -393,8 +393,8 @@
             </span>
         </div>
 		  <ul class="nav navbar-nav navbar-right"> 
-            <button type="button" style=" margin:10px 30px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#dataModal').modal('show'); return false;"><i class="glyphicon glyphicon-download-alt" style="color:#0084C8"></i>&nbsp;&nbsp;<b>Access Data</b></a></button>
-            <button type="button" style=" margin:10px 10px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#HowModal').modal('show'); return false;"><i class="icon-question-sign" style="color:#0084C8"></i>&nbsp;&nbsp;<b>How to Use</b></a></button>          
+          <!--  <button type="button" style=" margin:10px 30px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#dataModal').modal('show'); return false;"><i class="glyphicon glyphicon-download-alt" style="color:#0084C8"></i>&nbsp;&nbsp;<b>Access Data</b></a></button> -->
+            <button type="button" style=" margin:10px 30px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#HowModal').modal('show'); return false;"><i class="icon-question-sign" style="color:#0084C8"></i>&nbsp;&nbsp;<b>How to Use</b></a></button>          
             <button type="button" style=" margin:10px 10px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#aboutModal').modal('show'); return false;"><i class="icon-info-sign" style="color:#0084C8"></i>&nbsp;&nbsp;<b>About</b></a></button>
          </ul>
     </div>
@@ -403,7 +403,7 @@
 		<div class="col-sm-5 col-lg-5" id="sidebar" style="padding: 10px; overflow: auto;">
 			 <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a href="#layers" data-toggle="tab"><i class="glyphicon glyphicon-road"></i>&nbsp;CMP Corridors</a></li>
-                <li id="PMBtn"><a href="#help" data-toggle="tab"><i class="glyphicon glyphicon-stats"></i>&nbsp;Performance Measures</a></li>
+             <!--   <li id="PMBtn"><a href="#help" data-toggle="tab"><i class="glyphicon glyphicon-stats"></i>&nbsp;Performance Measures</a></li>-->
 				<li><a href="#Results" data-toggle="tab" ><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Info</a></li>
             </ul>
 		<div class="tab-content" style="padding-top: 10px;">
@@ -433,7 +433,7 @@
                                             <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA14" checked><img src='img/PA14.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.160858' , '-75.207956' ),11); return false;">14 - PA 611 &amp; PA 309</a></span></div>
                                             <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA15" checked><img src='img/PA15.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.050975' , '-75.211544' ),11); return false;">15 - Ridge-Lincoln-Cheltenham </a></span></div>
                                             <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA16" checked><img src='img/PA16.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.168874' , '-75.66524' ),11); return false;">16 - PA 100 </a></span></div>
-                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA17" checked><img src='img/NJ7.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.817038' , '-75.763032' ),11); return false;">17 - PA 41 </a></span></div>
+                                            <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="PA17" checked><img src='img/PA17.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.817038' , '-75.763032' ),11); return false;">17 - PA 41 </a></span></div>
                                         </div>
                                     </div>  
 								</div>
@@ -458,6 +458,9 @@
                                                 <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ12" checked><img src='img/NJ12.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.901097' , '-74.953947' ),11); return false;">12 - NJ 70 </a></span></div>
                                                 <div class="checkbox"><label><input type="checkbox" class="layer"  name="overlayLayers" id="NJ13" checked><img src='img/NJ13.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.92053' , '-74.943051' ),11); return false;">13 - NJ 73 </a></span></div>
                                                 <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ14" checked><img src='img/NJ14.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '40.297349' , '-74.595033' ),11); return false;">14 - CR 571</a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ15" checked><img src='img/NJ15.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.932049' , '-74.898576' ),11); return false;">15 - CR 603 </a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer"  name="overlayLayers" id="NJ16" checked><img src='img/NJ16.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.837543' , '-74.966203' ),11); return false;">16 - CR 561 </a></span></div>
+                                                <div class="checkbox"><label><input type="checkbox" class="layer" name="overlayLayers" id="NJ17" checked><img src='img/NJ17.png' width='26' height='29'></label><span>&nbsp;<a href="#" class="zoomToCMP" onclick="map.setView(new L.LatLng( '39.759037' , '-74.978311' ),11); return false;">17 - CR 689</a></span></div>
                                         </div>
                                     </div>     
                                 </div>
@@ -584,8 +587,8 @@
 								performance of the transportation system as it goes back around.<br/>		
 							</p>
 							 <a class="one" href="http://www.dvrpc.org/CongestionManagement/" target="_new">Click Here</a>  to read more about the CMP and view the latest publications.
-							 <br><font color='red' size='1px'><i>Data Source: 2015 CMP Corridors</i></font></br>
-							  <font color='red' size='1px'><i>Last Updated: January 2017</i></font></br>
+							 <br><font color='red' size='1px'><i>Data Source: 2019 CMP Corridors</i></font></br>
+							  <font color='red' size='1px'><i>Last Updated: December 2019</i></font></br>
 						</div>
 						<div class="tab-pane fade" id="disclaimer">	
 								<p>This web page is a public resource of general information. The Delaware Valley Regional Planning Commission (DVRPC) makes no warranty, 
@@ -596,11 +599,11 @@
 						</div>
 						 <div class="tab-pane fade" id="contact">
                             <p>
-                            <strong>Zoe Neaderland, AICP</strong><br/>
+                            <strong>Tom Edinger</strong><br/>
                             Manager <br/>
-                            Office of Transportation Safety and Congestion Management<br/>
-                            Phone: 215-238-2839 <br/>
-                            <a class="one" href="mailto:zneaderland@dvrpc.org">zneaderland@dvrpc.org </a> 
+                            Congestion Management Programs<br/>
+                            Phone: 215-238-2865 <br/>
+                            <a class="one" href="mailto:tedingner@dvrpc.org">tedingner@dvrpc.org </a> 
                             </p>		
 						</div>
 					</div>
@@ -621,7 +624,7 @@
                     <p>
                     - Click on the map to identify and view CMP subcorridor and segmented roadway information.<br><br>
                     - If the area you select includes overlapping subcorridors, those subcorrdiors will be listed in the results tab.<br><br>
-                    - Click "Results" to view detailed information about individual subcorridors amd roadway segments, including CMP strategies and other pertinent information.<br><br>
+                    - Click "Info" to view detailed information about individual subcorridors amd roadway segments, including CMP strategies and other pertinent information.<br><br>
                     - Clicking "Zoom To Subcorridor" will automatically zoom to the full extent of that selected subcorridor. 
                     </p>
                     <h4>Map Navigation:</h4>
