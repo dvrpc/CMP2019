@@ -57,7 +57,7 @@ var resetData = true;
 var resetInfo = true;
 
 //OPEN ABOUT DIALOG
-$('#aboutModal').modal();
+// $('#aboutModal').modal();
 //   $('#slidercase').appendTo('#map');
 
 $(window).resize(function() {
@@ -93,9 +93,9 @@ $(document).ready(function() {
         }
     });
 
-    $("#PMBtn").click(function() {
-        $('#PMModal').modal('show');
-    });
+ //   $("#PMBtn").click(function() {
+ //       $('#PMModal').modal('show');
+ //   });
 
 });
 
@@ -185,7 +185,7 @@ var tile_group = L.layerGroup().addTo(map);
 $('input[type=radio][name=optradio]').on('change', function() {
     var layer_ids = $(this).attr('data-value').split(',');
     var layers = $(this).attr('data-value');
-    cmp_PNT = L.esri.dynamicMapLayer({
+    cmp_PNT = L.esri.dynamicMapLayer ({
         url: 'https://arcgis.dvrpc.org/arcgis/rest/services/AppData/CMP_Performance/MapServer',
         layers: [layer_ids[0], layer_ids[1]]
     })
@@ -205,7 +205,7 @@ function checkIfLoaded() {
 
 var identifiedFeature;
 var pane = document.getElementById('selectedFeatures');
-var cmp_PNT_ID = L.esri.dynamicMapLayer({
+var cmp_PNT_ID = L.esri.dynamicMapLayer ({
     url: 'https://arcgis.dvrpc.org/arcgis/rest/services/AppData/CMP_Performance/MapServer'
 });
 
