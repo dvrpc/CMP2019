@@ -486,51 +486,74 @@
                           <div class="radio">
                             <label><input checked="checked"  data-value="99,99" name="optradio" type="radio" value="0">None</label>
                           </div>
+
                           <h5><B>Reduce Congestion </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw()'></i></h5>
                           <div class="radio">
-                            <label><input data-value="0,1" name="optradio" type="radio" value="1">Travel Time Index (TTI)</label>
+                            <label><input name="optradio" type="radio" id="TTI_PM" >High Travel Time Index (TTI)</label>
                           </div>
                           <div class="radio">
-                            <label><input data-value="2,3" name="optradio" type="radio" value="2">General Peak-Hour Volume/Capacity (V/C) Ratios</label>
+                            <label><input name="optradio" type="radio" id="LRP_VC_PM" >Anticipated Growth in V/C</label>
                           </div>
-                          <div class="radio disabled">
-                            <label><input data-value="6,7" name="optradio" type="radio" value="3">Anticipated Growth in V/C using the DVRPC Travel Model </label>
-                          </div>
+                         
                           <h5><B>Increase Accessibility &amp; Mobility </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw2()'></i></h5>
                           <div class="radio">
-                            <label><input data-value="8,9" name="optradio" type="radio" value="4">Transit Score and Rail Stations</label>
+                            <label><input name="optradio" type="radio" id="TransScore_PM" >Transit Score and Rails Stations</label>
                           </div>
                           <div class="radio">
-                            <label><input data-value="10,11" name="optradio" type="radio" value="5">Planning Time Index (PTI)</label>
+                            <label><input name="optradio" type="radio" id="PTI_PM" >High Planning Time Index (PTI)</label>
                           </div>
+                         
                           <h5><B>Rebuild &amp; Maintain Transportation Infrastructure </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw3()'></i></h5>
                           <div class="radio">
-                            <label><input data-value="12,13" name="optradio" type="radio" value="6">Core Transportation Network </label>
+                            <label><input name="optradio" type="radio" id="NHSPoint_PM" >Core Transportation Network</label>
                           </div>
                           <div class="radio">
-                            <label><input data-value="14,15" name="optradio" type="radio" value="7">Existing Transit</label>
+                            <label><input name="optradio" type="radio" id="TransitPoi_PM" >Existing Transit</label>
                           </div>
+                        
                           <h5><B>Create a Safer Transportation System </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw4()'></i></h5>
                           <div class="radio">
-                            <label><input data-value="16,17" name="optradio" type="radio" value="8">Crash Rate</label>
+                            <label><input name="optradio" type="radio" id="HighCrSev_PM" >High Crash Severity</label>
                           </div>
+                          <div class="radio">
+                            <label><input name="optradio" type="radio" id="HighCrFreq_PM" >High Crash Frequency</label>
+                          </div>
+
+                           <h5><B>Facilitate Goods Movement </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw4()'></i></h5>
+                          <div class="radio">
+                            <label><input name="optradio" type="radio" id="TTTI_PM" >Truck Travel Time Index</label>
+                          </div>
+                        
                           <h5><B>Create a More Secure Transportation System </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw5()'></i></h5>
                           <div class="radio">
-                            <label><input data-value="18,19" name="optradio" type="radio" value="9">Important Areas for Transportation Security Planning</label>
+                            <label><input name="optradio" type="radio" id="HvyTran_PM" >Important Areas for Transportation Security Planning</label>
                           </div>
                           <div class="radio">
-                            <label><input data-value="18,19" name="optradio" type="radio" value="10">Areas of Special Evacuation Concern</label>
+                            <label><input name="optradio" type="radio" id="HHDen_PM" >Areas of Special Evacuation Concern</label>
                           </div>
+                        
                           <h5><B>Ensure Transportation Investments Support LRP Principles </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw6()'></i></h5>
                           <div class="radio">
-                            <label><input data-value="20,21" name="optradio" type="radio" value="11">Low Green Infrastructure Screening Tool Score</label>
+                            <label><input name="optradio" type="radio" id="Env_PM" >Low Green Infrastructure Screening Tool Scores</label>
                           </div>
                           <div class="radio">
-                            <label><input data-value="22,23" name="optradio" type="radio" value="12">Connections 2040 Infill and Redevelopment areas, Emerging Growth areas</label>
+                            <label><input name="optradio" type="radio" id="InfEmerg_PM" >Conections 2040 - Infill and Redevelopment Areas and Emergeing Growth Areas</label>
                           </div>
                           <div class="radio disabled">
-                            <label><input data-value="24,25" name="optradio" type="radio" value="13">Conections 2040 Land Use Centers</label>
+                            <label><input name="optradio" type="radio" id="PlanCntr_PM" >Conections 2040 - Land Use</label>
                           </div>
+
+                          <h5><B>Integrate PM3 Measures </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw4()'></i></h5>
+                          <div class="radio">
+                            <label><input name="optradio" type="radio" id="LOTTR_PM" >Level of Travel Time Reliability</label>
+                          </div>
+                          <div class="radio">
+                            <label><input name="optradio" type="radio" id="PHED_PM" >Peak Hour Excessive Delay</label>
+                          </div>
+                          <div class="radio disabled">
+                            <label><input name="optradio" type="radio" id="TTTR_PM" >Truck Travel Time Reliability</label>
+                          </div>
+
                         </div>
                       </div>
                     </div>

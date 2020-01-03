@@ -55,6 +55,7 @@ var tg = 0;
 var layer_ids = [];
 var resetData = true;
 var resetInfo = true;
+var TTI_PM,LRP_VC_PM,TransScore_PM,RailPoint_PM,PTI_PM,NHSPoint_PM,TranistPoi_PM,HighCrSev_PM,HighCrFreq_PM, TTTI_PM, HvyTran_PM, Limerick_PM, MajBridge_PM, Bridges_PM, Military_PM, HHDen_PM, EmpDen_PM, StadGathr_PM, Env_PM, InfEmerg_PM, PlanCntr_PM, LOTTR_PM, PHED_PM, TTTR_PM;
 
 //OPEN ABOUT DIALOG
 // $('#aboutModal').modal();
@@ -182,7 +183,7 @@ var tile_group = L.layerGroup().addTo(map);
 //   checkIfLoaded(); 
 
 
-$('input[type=radio][name=optradio]').on('change', function() {
+/* $('input[type=radio][name=optradio]').on('change', function() {
     var layer_ids = $(this).attr('data-value').split(',');
     var layers = $(this).attr('data-value');
     cmp_PNT = L.esri.dynamicMapLayer ({
@@ -191,11 +192,12 @@ $('input[type=radio][name=optradio]').on('change', function() {
     })
     //add new tiles to overlay group
     tile_group.clearLayers().addLayer(cmp_PNT);
-    checkIfLoaded();
+
     layers_pm_id = 'top:'+layers;
 
 });
-
+*/
+//     checkIfLoaded();
 function checkIfLoaded() {
     $('.loading-panel').fadeIn();
     cmp_PNT.on("load", function() {
@@ -211,24 +213,640 @@ var cmp_PNT_ID = L.esri.dynamicMapLayer ({
 
 var layers_pm_id = ('top:98,99');
 
-map.on('click', function(e) {
-    //    pane.innerHTML = 'oading';
-    (resetData)? $('#infosidebar').html('') : resetData = true;
-    (resetInfo)? $('#cmp_info').hide() : resetInfo = true;
-    if (identifiedFeature) {
-        map.removeLayer(identifiedFeature);
+// query the checkbox
+  var checkboxTTI = document.getElementById("TTI_PM")
+  var checkboxLRP_VC = document.getElementById("LRP_VC_PM")
+  var checkboxTransScore = document.getElementById("TransScore_PM")
+  var checkboxPTI = document.getElementById("PTI_PM")
+  var checkboxNHSPoint = document.getElementById("NHSPoint_PM")
+  var checkboxTransitPoi = document.getElementById("TransitPoi_PM")
+  var checkboxHighCrSev = document.getElementById("HighCrSev_PM")
+  var checkboxHighCrFreq = document.getElementById("HighCrFreq_PM")
+  var checkboxTTTI = document.getElementById("TTTI_PM")
+  var checkboxHvyTran = document.getElementById("HvyTran_PM")
+  var checkboxHHDen = document.getElementById("HHDen_PM")
+  var checkboxEnv = document.getElementById("Env_PM")
+  var checkboxInfEmerg = document.getElementById("InfEmerg_PM")
+  var checkboxPlanCntr = document.getElementById("PlanCntr_PM")
+  var checkboxLOTTR = document.getElementById("LOTTR_PM")
+  var checkboxPHED = document.getElementById("PHED_PM") 
+  var checkboxTTTR = document.getElementById("TTTR_PM")   
+
+  $('input[type=radio][name=optradio]').on('change', function(){
+    
+    if(checkboxTTI.checked){
+      TTI_PM.addTo(map);
+    } else {
+      map.removeLayer(TTI_PM);
     }
-    cmp_PNT_ID.identify()
-        .on(map)
-        .at(e.latlng)
-        .layers(layers_pm_id)
-        .run(function(error, featureCollection) {
-            if (featureCollection.features.length > 0) {
-                identifiedFeature = L.geoJson(featureCollection.features[0]).addTo(map);
-                var props = featureCollection.features[0].properties;
+
+    if(checkboxLRP_VC.checked){
+      LRP_VC_PM.addTo(map);
+    } else {
+      map.removeLayer(LRP_VC_PM);
+    }
+
+    if(checkboxTransScore.checked){
+      TransScore_PM.addTo(map);
+      RailPoint_PM.addTo(map);
+    } else {
+      map.removeLayer(TransScore_PM);
+      map.removeLayer(RailPoint_PM);
+    }
+
+    if(checkboxPTI.checked){
+      PTI_PM.addTo(map);
+    } else {
+      map.removeLayer(PTI_PM);
+    }
+
+    if(checkboxNHSPoint.checked){
+      NHSPoint_PM.addTo(map);
+      FreightPo_PM.addTo(map);
+      RailLinePo_PM.addTo(map);
+    } else {
+      map.removeLayer(NHSPoint_PM);
+      map.removeLayer(FreightPo_PM);
+      map.removeLayer(RailLinePo_PM);
+    }
+
+     if(checkboxTransitPoi.checked){
+      TransitPoi_PM.addTo(map);
+    } else {
+      map.removeLayer(TransitPoi_PM);
+    }
+
+     if(checkboxHighCrSev.checked){
+      HighCrSev_PM.addTo(map);
+    } else {
+      map.removeLayer(HighCrSev_PM);
+    }
+
+    if(checkboxHighCrFreq.checked){
+      HighCrFreq_PM.addTo(map);
+    } else {
+      map.removeLayer(HighCrFreq_PM);
+    }
+
+    if(checkboxTTTI.checked){
+      TTTI_PM.addTo(map);
+    } else {
+      map.removeLayer(TTTI_PM);
+    }
+
+     if(checkboxHvyTran.checked){
+      HvyTran_PM.addTo(map);
+      Limerick_PM.addTo(map);
+      MajBridge_PM.addTo(map);
+      Bridges_PM.addTo(map);
+      Military_PM.addTo(map);
+    } else {
+      map.removeLayer(HvyTran_PM);
+      map.removeLayer(Limerick_PM);
+      map.removeLayer(MajBridge_PM);
+      map.removeLayer(Bridges_PM);
+      map.removeLayer(Military_PM);
+    }
+
+    if(checkboxHHDen.checked){
+      HHDen_PM.addTo(map);
+      EmpDen_PM.addTo(map);
+      StadGathr_PM.addTo(map);
+    } else {
+      map.removeLayer(HHDen_PM);
+      map.removeLayer(EmpDen_PM);
+      map.removeLayer(StadGathr_PM);
+    }
+
+    if(checkboxEnv.checked){
+      Env_PM.addTo(map);
+    } else {
+      map.removeLayer(Env_PM);
+    }
+
+    if(checkboxInfEmerg.checked){
+      InfEmerg_PM.addTo(map);
+    } else {
+      map.removeLayer(InfEmerg_PM);
+    }
+
+    if(checkboxPlanCntr.checked){
+      PlanCntr_PM.addTo(map);
+    } else {
+      map.removeLayer(PlanCntr_PM);
+    }
+
+   if(checkboxLOTTR.checked){
+      LOTTR_PM.addTo(map);
+    } else {
+      map.removeLayer(LOTTR_PM);
+    }
+
+  if(checkboxPHED.checked){
+      PHED_PM.addTo(map);
+    } else {
+      map.removeLayer(PHED_PM);
+    }
+
+  if(checkboxTTTR.checked){
+      TTTR_PM.addTo(map);
+    } else {
+      map.removeLayer(TTTR_PM);
+    }        
+  });
+
+  var TTI_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.TTI) {
+        case 0.5:
+          c = '#f5b041';
+          w = 6;
+          o = .4;
+          break;
+        case 1:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var LRP_VC_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.LRP_VC) {
+        case 0.5:
+          c = '#f5b041';
+          w = 6;
+          o = .4;
+          break;
+        case 1:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var TransScore_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.TransScore) {
+        case 1:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var RailPoint_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.RailPoint) {
+        case 1:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var PTI_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.PTI) {
+        case 0.5:
+          c = '#f5b041';
+          w = 6;
+          o = .4;
+          break;
+        case 1:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var NHSPoint_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.NHSPoint) {
+       case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var FreightPo_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.FreightPo) {
+        case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var RailLinePo_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.RailLinePo) {
+       case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var TransitPoi_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.TransitPoi) {
+        case 0.5:
+          c = '#f5b041';
+          w = 6;
+          o = .4;
+          break;
+        case 1:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var HighCrSev_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.HighCrSev) {
+       case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var HighCrFreq_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.HighCrFreq) {
+       case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var TTTI_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.TTTI) {
+       case 0.5:
+          c = '#f5b041';
+          w = 6;
+          o = .4;
+          break;
+        case 1:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var HvyTran_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.HvyTran) {
+       case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var Limerick_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.Limerick) {
+       case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var MajBridge_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.MajBridge) {
+       case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var Bridges_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.Bridges) {
+       case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var Military_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.Military) {
+       case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var HHDen_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.HHDen) {
+          case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var EmpDen_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.EmpDen) {
+       case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var StadGathr_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.StadGathr) {
+      case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var Env_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.Env) {
+      case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var InfEmerg_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.InfEmerg) {
+      case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+var PlanCntr_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.PlanCntr) {
+      case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var LOTTR_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.LOTTR) {
+        case 0.5:
+          c = '#f5b041';
+          w = 6;
+          o = .4;
+          break;
+        case 1:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var PHED_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.PHED) {
+        case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });
+
+  var TTTR_PM = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0',
+     style: function (feature) {
+      var c, o, w;
+      switch (feature.properties.TTTR) {
+        case 0.5:
+          c = '#cb4335';
+          w = 2;
+          o = .8;
+          break;
+        default:
+          w = 0;
+      }
+      return { color: c, opacity: o, weight: w };
+    }
+  });    
+
+  var service = L.esri.featureLayerService({
+  url: 'https://services1.arcgis.com/LWtWv6q6BJyKidj8/ArcGIS/rest/services/CMP_CriteriaNetwork/FeatureServer/0'
+});
+
+map.on('click', function (e) {
+
+PTI_PM.query()
+.nearby(e.latlng,100)
+.run(function (error, featureCollection, response) {
+  if (error) {
+    console.log(error);
+    return;
+  }
+    // make sure at least one feature was identified.
+      if (featureCollection.features.length > 0) {
+      //  identifiedFeature = L.geoJSON(featureCollection.features[0]).addTo(map);
+        console.log(featureCollection);
+          var props = featureCollection.features[0].properties;
                 var content = '<div id="pm_info"><h3 style="background-color:#E0E0E0"><i class="glyphicon glyphicon-stats"></i>&nbsp; Performance Measures</h3>The scores below are for the selected roadway segments<br>' +
                     'Functional Classification: <b>' + (props['Functional Classification']) + '</b>' +
-                    '<br>AADT: <b>' + numeral(props.AADT).format('0,0') + '</b>' +
                     '<br>Lanes: <b>' + (props.Lanes) + '</b></div>' +
                     '<a href="https://maps.google.com/maps?q=&layer=c&cbll=' + e.latlng.lat + ', ' + e.latlng.lng +'&cbp=" target="_new">Launch Google Streetview near this location</a>'+
                     '<table id="crashtable">' +
@@ -261,14 +879,51 @@ map.on('click', function(e) {
                     '<th>2040 Land Use Centers</th><td>' + (props['Long Range Plan Score']) + '</td>' +
                     '</tbody>' +
                     '<table>';
-
-                pane.innerHTML = content;;
-            } else {
-                //  pane.innerHTML = 'No roadway features selected.';
-                pane.innerHTML = '';
-            }
-        });
+                pane.innerHTML = content
+      } else {
+        pane.innerHTML = 'No features identified.';
+      }
+    });
 });
+
+ PTI_PM.on('click', function (e) {
+       var props = e.layer.feature.properties;
+                var content = '<div id="pm_info"><h3 style="background-color:#E0E0E0"><i class="glyphicon glyphicon-stats"></i>&nbsp; Performance Measures</h3>The scores below are for the selected roadway segments<br>' +
+                    'Functional Classification: <b>' + (props['Functional Classification']) + '</b>' +
+                    '<br>Lanes: <b>' + (props.Lanes) + '</b></div>' +
+                    '<a href="https://maps.google.com/maps?q=&layer=c&cbll=' + e.latlng.lat + ', ' + e.latlng.lng +'&cbp=" target="_new">Launch Google Streetview near this location</a>'+
+                    '<table id="crashtable">' +
+                    '<tbody>' +
+                    '<tr class="odd">' +
+                    '<th>Travel Time Index (TTI)</th><td>' + (props.TTI) + '</td>' +
+                    '<tr class="even">' +
+                    '<th>Peak-Hour Volume/Capacity (V/C) Ratios</th><td>' + (props.VC_Score) + '</td>' +
+                    '<tr class="odd">' +
+                    '<th>Anticipated Growth in V/C</th><td>' + (props.VC_Growth) + '</td>' +
+                    '<tr class="even">' +
+                    '<th>Transit Score and Rail Stations</th><td>' + (props['Transit Score']) + '</td>' +
+                    '<tr class="odd">' +
+                    '<th>Planning Time Index (PTI)</th><td>' + (props.PTI) + '</td>' +
+                    '<tr class="even">' +
+                    '<th>Core Transportation Network</th><td>' + (props.NHS) + '</td>' +
+                    '<tr class="odd">' +
+                    '<th>Existing Transit</th><td>' + (props.Transit) + '</td>' +
+                    '<tr class="even">' +
+                    '<th>Crash Rate</th><td>' + (props['2 times Crash Rate']) + '</td>' +
+                    '<tr class="odd">' +
+                    '<th>Transportation Security</th><td>' + (props['Security Score']) + '</td>' +
+                    '<tr class="even">' +
+                    '<th>Special Evacuation Concern</th><td>' + (props['Security Score']) + '</td>' +
+                    '<tr class="odd">' +
+                    '<th>Green Infrastructure Screening Tool Score</th><td>' + (props['Environmental Index']) + '</td>' +
+                    '<tr class="even">' +
+                    '<th>Infill and Redevelopment areas, Emerging Growth areas</th><td>' + (props.Developed) + '</td>' +
+                    '<tr class="odd">' +
+                    '<th>2040 Land Use Centers</th><td>' + (props['Long Range Plan Score']) + '</td>' +
+                    '</tbody>' +
+                    '<table>';
+                pane.innerHTML = content;    
+  });
 // Static 2015 CMP subcorridor layer
 var CMP = L.geoJson(null, {
     style: function(feature) {
