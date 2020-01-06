@@ -370,6 +370,7 @@
         a.zoomToCMP:link {color:#333;font-size: 11px;cursor: pointer;}
         a.zoomToCMP:visited {color:#333;font-size: 11px;cursor: pointer;}
         a.zoomToCMP:hover {color:#333;font-size: 11px;cursor: pointer;}
+        .leaflet-fade-anim .leaflet-tile,.leaflet-zoom-anim .leaflet-zoom-animated { will-change:auto !important; }
     </style>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.2.0/respond.js"></script>
@@ -392,9 +393,11 @@
 				 </a>
             </span>
         </div>
-		  <ul class="nav navbar-nav navbar-right"> 
+		  <ul class="nav navbar-nav navbar-right">   
           <!--  <button type="button" style=" margin:10px 30px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#dataModal').modal('show'); return false;"><i class="glyphicon glyphicon-download-alt" style="color:#0084C8"></i>&nbsp;&nbsp;<b>Access Data</b></a></button> -->
-            <button type="button" style=" margin:10px 30px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#HowModal').modal('show'); return false;"><i class="icon-question-sign" style="color:#0084C8"></i>&nbsp;&nbsp;<b>How to Use</b></a></button>          
+            <button type="button" style=" margin:10px 30px 0px 0px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm" <a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="surveylaunch(); return false;"><i class="icon-globe" style="color:#0084C8"></i>&nbsp;&nbsp;<b>AGOL App</b></a></button>   
+
+            <button type="button" style=" margin:10px 10px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#HowModal').modal('show'); return false;"><i class="icon-question-sign" style="color:#0084C8"></i>&nbsp;&nbsp;<b>How to Use</b></a></button>          
             <button type="button" style=" margin:10px 10px 0px 4px;float:right;color:#0084C8;background-color:#ddd;" class="btn btn-sm"<a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#aboutModal').modal('show'); return false;"><i class="icon-info-sign" style="color:#0084C8"></i>&nbsp;&nbsp;<b>About</b></a></button>
          </ul>
     </div>
