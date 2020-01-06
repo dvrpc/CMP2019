@@ -48,7 +48,12 @@ function legendraw5(element) {
 function legendraw6(element) {
     $("#Support").modal("show");
 }
-
+function legendraw7(element) {
+    $("#Freight").modal("show");
+}
+function legendraw8(element) {
+    $("#PM3").modal("show");
+}
  // this is the Survey Modal Call
       function surveylaunch(element) {
      //   $("#SurveyModal").modal("show");
@@ -1317,9 +1322,14 @@ var PlanCntr_PM = L.esri.featureLayer({
     }
   }); 
 
+var identifiedFeature;
+
 map.on('click', function (e) {
   (resetData)? $('#infosidebar').html('') : resetData = true;
   (resetInfo)? $('#cmp_info').hide() : resetInfo = true;
+   if (identifiedFeature) {
+        map.removeLayer(identifiedFeature);
+    }
    if (map.hasLayer(TTI_PM)) {
     TTI_PM.query()
       .nearby(e.latlng,100)
@@ -1333,11 +1343,13 @@ map.on('click', function (e) {
    //     }
     // make sure at least one feature was identified.
       if (featureCollection.features.length > 0) {
-      //  identifiedFeature = L.geoJSON(featureCollection.features[0]).addTo(map);
+      identifiedFeature = L.geoJSON(featureCollection.features[0]).addTo(map);
         console.log(featureCollection.features[0].properties);
           var props = featureCollection.features[0].properties;
                 var content = '<div id="pm_info"><h3 style="background-color:#E0E0E0"><i class="glyphicon glyphicon-stats"></i>&nbsp; Performance Measures</h3>The scores below are for the selected roadway segments<br>' +
-                    '<a href="https://maps.google.com/maps?q=&layer=c&cbll=' + e.latlng.lat + ', ' + e.latlng.lng +'&cbp=" target="_new">Launch Google Streetview near this location</a>'+
+                    '<B>Road Name:</B> ' + (props.RoadName) + 
+                    '<br><B>Direction:</B> ' + (props.Bearing) + 
+                    '<br><a href="https://maps.google.com/maps?q=&layer=c&cbll=' + e.latlng.lat + ', ' + e.latlng.lng +'&cbp=" target="_new">Launch Google Streetview near this location</a><br>'+
                     '<table id="crashtable">' +
                     '<tbody>' +
                     '<tr class="odd">' +
@@ -1380,7 +1392,7 @@ map.on('click', function (e) {
              //   length++;
       } 
       else {
-        pane.innerHTML = 'No features identified.';
+        pane.innerHTML = 'No roadway features identified';
       }
     });
 }

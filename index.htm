@@ -522,7 +522,7 @@
                             <label><input name="optradio" type="radio" id="HighCrFreq_PM" >High Crash Frequency</label>
                           </div>
 
-                           <h5><B>Facilitate Goods Movement </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw4()'></i></h5>
+                           <h5><B>Facilitate Goods Movement </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw7()'></i></h5>
                           <div class="radio">
                             <label><input name="optradio" type="radio" id="TTTI_PM" >Truck Travel Time Index</label>
                           </div>
@@ -546,7 +546,7 @@
                             <label><input name="optradio" type="radio" id="PlanCntr_PM" >Conections 2040 - Land Use</label>
                           </div>
 
-                          <h5><B>Integrate PM3 Measures </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw4()'></i></h5>
+                          <h5><B>Integrate PM3 Measures </B><i class='glyphicon glyphicon-info-sign' id='info-icon' onclick='legendraw8()'></i></h5>
                           <div class="radio">
                             <label><input name="optradio" type="radio" id="LOTTR_PM" >Level of Travel Time Reliability</label>
                           </div>
@@ -703,7 +703,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title modal-legend">Reduce Congestion</h4>
-                    <p>Congestion has a significant impact on a region’s economic competitiveness, since people and goods sitting in traffic equates to money lost. In 2012, the Greater Philadelphia region experienced 156 million hours of travel delay, which ranks seventh nationally. This equates to over 75 million gallons of excess fuel consumed and an annual cost of more than $3.4 billion due to sitting in congestion. Reducing congestion has traditionally been accomplished by expanding network capacity. However, repeated experience has shown that new capacity quickly fills up and entices expanded development ever further out. Other strategies, such as making the transportation system more efficient, reducing demand by instituting transportation demand management strategies, and providing alternatives to the single-occupant vehicle can also accomplish the same goal. </p>
+                    <p>Traffic congestion leads to lost time, extra fuel costs, and deterioration of air quality.  Let unmanaged, congestion leads to a negative overall impact on health, competitiveness, and sustainability of the region. In 2017, the Greater Philadelphia region experienced 194.7 million hours of travel delay, which ranks tenth nationally. This equates to over 80.8 million gallons of excess fuel consumed and an annual cost of more than $3.6 billion due to being stuck in traffic. Reducing congestion has traditionally been accomplished by expanding network capacity. However, repeated experience have shown that new capacity will bring congestion back to previous levels and encourage expanded development further out.  Other strategies, such as making the transportation system more efficient, reducing demand by instituting transportation demand management strategies, and providing alternatives to the single-occupant vehicle travel can also accomplish the same goal.</p>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -711,9 +711,6 @@
                           <ul id="reduceTabs" class="nav nav-tabs nav-stacked nav-left">
                               <li class="active">
                                   <a href="#map" data-target="#Travel" role="tab" data-toggle="tab">Travel Time Index (TTI)</a>
-                              </li>
-                              <li>
-                                  <a href="#map" data-target="#VC" role="tab" data-toggle="tab" >General Peak-Hour Volume/Capacity (V/C) Ratios</a>
                               </li>
                               <li>
                                   <a href="#map" data-target="#Growth" role="tab" data-toggle="tab">High Anticipated Growth in V/C</a>
@@ -724,44 +721,33 @@
                             <div id="EXTODTabsContent" class="tab-content">
                                 <div class="tab-pane fade active in" id="Travel">
                                     <h4 class="modal-title" style="color:black;font-weight:bold">Travel Time Index (TTI)</h4>
-                                    <p>TTI measures congestion by comparing the average travel time for a segment of road during the peak hour (defined as 5-6 PM) to the free-flow travel time for the same segment.  A TTI of 1.5 indicates that the travel time is, on average, 50 percent longer during the peak hour. For example, a trip that would take 20 minutes under free-flow conditions would take 30 minutes during the peak hour. It is normal and appropriate for TTI to increase during peak hours.
+                                    <p>The TTI measure helps to assess congestion by comparing the average travel time for a segment of road during the peak hour (7-8 AM, and 5-6 PM) to the free-flow travel time for the same segment. A TTI of 1.5 indicates that the travel time is, on average, 50 percent longer during the peak hour. For example, a trip that would take 20 minutes under free-flow conditions would take 30 minutes during the peak hour. It is normal and appropriate for TTI to increase during peak hours.
                                     <br>            
                                     </p>
-                                    <p><b>Scoring</b><i>  (Peak Hour TTI, 5-6 PM, all weekdays in 2013)</i>
+                                    <p><b>Scoring</b><i>  (Peak Hour TTI, 7-8 AM or 5-6 PM, whichever is greater, all weekdays in 2017)</i>
                                         <ul>
-                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than 1.5 (seriously congested)</li>
-                                          <li><i class="glyphicon glyphicon-minus legend-orange"></i> Medium (0.5) = 1.2 - 1.5 (busy as expected at peak hour)</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than 1.5 (highly congested)</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-orange"></i> Medium (0.5) = 1.2 - 1.5 (moderately congested as expected at peak hour)</li>
                                         </ul>
                                     All of the measures to Reduce Congestion can combine to total a maximum of 2 points per link.<br><br>
-                                    <i><b>Source:</b> University of Maryland Center for Advanced Transportation Technology (CATT) Laboratory Vehicle Probe Project (VPP) Suite, DVRPC. </i>
+                                    <i><b>Source:</b> INRIX, DVRPC. </i>
 
-                                    </p>
-                                </div>
-                                <div class="tab-pane fade" id="VC">
-                                    <h4 class="modal-title" style="color:black">General Peak-Hour Volume/Capacity (V/C) Ratios</h4>
-                                    <p>V/C ratio is a way to estimate congestion by comparing use of a segment of road with road capacity. Peak-hour V/C ratios were calculated using 5-6 PM hourly counts from the DVRPC traffic count database. Capacity was estimated for each segment based on the Highway Capacity Manual as incorporated in the DVRPC travel model.  V/C ratios greater than or equal to 0.85 generally correspond to LOS E or F, although that varies by functional class of road.<font style="color:red">V/C ratios calculated for the CMP are only suitable for regional planning purposes, not for engineering.</font> 
-                                    </p>    
-                                   <p><b>Scoring</b><i>  (Peak Hour V/C Ratios)</i>
-                                        <ul>
-                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than or equal to 1.0 in urban areas</li>
-                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than or equal to 0.85 in rural/suburban areas</li>
-                                        </ul>
-                                    All of the measures to Reduce Congestion can combine to total a maximum of 2 points per link.<br><br>
-                                    <i><b>Source:</b> DVRPC. </i>
                                     </p>
                                 </div>
                                 <div class="tab-pane fade" id="Growth">
                                     <h4 class="modal-title" style="color:black">Anticipated Growth in V/C using the DVRPC Travel Model </h4>
-                                    <p>This measure indicates where congestion will likely increase in the future.  It gives added weight to such locations if there already seems to be some congestion in the base year model (>.5 V/C).<br><br>
-                                    The analysis uses the 2010 and 2040 DVRPC travel model simulations.  The 2040 model uses demographic forecasts and projects already approved for funding.  This analysis provides indications as a regional model is not intended to provide precise simulated traffic by link.  Accuracy at the link level was estimated at +/- 15%.<br><br>
-                                    The 5-6 PM V/C ratio by link in the 2010 and 2040 models were compared.  Only links with two or more times the range of accuracy (30%) were considered to have an increase in congestion.<br><br>
-                                    The mapping reflects minor inaccuracies that can occur with transfer of the existing model data to GIS, a matter that will be resolved in the next model.
-                                    <font style="color:red">Growth in congestion from this analysis is only suitable for regional planning purposes, not for engineering.</font> 
+                                    <p>This measure indicates where congestion will likely increase in the future on a road segment during the peak hour (7-8 AM and 5-6 PM). It gives added weight to locations that are already moderately congested (V/C 0.5 or more) in the model base year (2015).<br><br>
+
+                                    The analysis uses the 2015 and 2045 DVRPC travel model runs, the same as used for the Long-Range Plan (Connections 2045). It identifies potential future congested roadways using the 2045 socio-economic forecasts, and any projects approved for funding.  This analysis indicates traffic congestion at the regional level, and is not intended to provide precise congestion by segment. Accuracy at the segment level is estimated at +/- 15%.<br><br>
+
+                                    The 7-8 AM or 5-6 PM V/C ratio, whichever is greater, by segment in the 2015 and 2045 models are compared. Only segments with two or more times the range of accuracy (30%) are considered to have an increase in congestion.<br><br>
+
+                                    The mapping reflects minor inaccuracies that can occur when transferring existing model data to GIS. Growth in congestion from this analysis is only suitable for regional planning purposes, not for engineering.
                                     </p>
-                                    <p><b>Scoring</b><i>  (Anticipated Growth in V/C in the 2010-2040 Peak-Period Travel Models, 5-6 PM, weekdays)</i>
+                                    <p><b>Scoring</b><i>  (Anticipated Growth in V/C in the 2015-2045 Peak-Period Travel Models, 7-8 AM or 5-6 PM, whichever was greater, all weekdays)</i>
                                         <ul>
-                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = 2010 V/C ratio of 0.5 or greater AND 30% or greater change in the peak period V/C ratio from 2010 to 2040</li>
-                                          <li><i class="glyphicon glyphicon-minus legend-orange"></i> Medium (0.5) = 30% or greater change in the peak period V/C ratio from 2010 to 2040</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = 2015 V/C ratio of 0.5 or greater, and 30% or greater change in the peak period V/C ratio from 2015 to 2045</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-orange"></i> Medium (0.5) = 0% or greater change in the peak period V/C ratio from 2015 to 2045</li>
                                         </ul>
                                     All of the measures to Reduce Congestion can combine to total a maximum of 2 points per link.<br><br>
                                     <i><b>Source:</b> DVRPC. </i>
@@ -786,7 +772,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title modal-legend">Increase Accessibility & Mobility</h4>
-                    <p>Accessibility refers to the ability to reach desired destinations within the region, and mobility refers to the movement of people and goods. Mobility is heightened when the transportation system is multimodal and provides connections between various modes. The ability to reach destinations throughout the region is a challenge for many members of society who do not have access to an automobile.  This is a growing concern due to the increase in demand for local transit in suburban areas for low income, older persons, and persons with disabilities. There is a critical geographic mismatch between employment centers offering entry-level service sector jobs–which are predominantly located in growing suburbs–and workers who primarily reside in the region’s inner cities and older suburbs. Providing alternative modes to the automobile is crucial so that everyone in the region can enjoy mobility. </p>
+                    <p>Accessibility refers to the ability to reach desired destinations within the region, mobility refers to the movement of people and goods, and reliability refers to arriving at a destination in a relatively consistent time.  Accessibility is critical for low income, older persons, and person with disabilities in suburban areas who do not have an automobile, and where transit is not available. There is a critical geographic mismatch between employment centers offering entry-level service sector jobs–which are predominantly located in growing suburbs–and workers who primarily reside in the region’s inner cities and older suburbs.  Mobility is enhanced when the transportation system is multimodal and provides connections between various modes.  Reliability is an increasing concern for travelers, shippers, and businesses.  Some congestion is acceptable to drivers, but travelers are less tolerant of unexpected delays due to incidents such as crashes, disabled vehicles, etc. Such delays can cause travelers to be late to work or important meetings, etc. that often lead to decreased productivity and added costs. </p>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -804,27 +790,27 @@
                             <div id="EXTODTabsContent" class="tab-content">
                                 <div class="tab-pane fade active in" id="Transit">
                                     <h4 class="modal-title" style="color:black;font-weight:bold">Transit Score and Rail Stations</h4>
-                                    <p>The Transit Score assesses the appropriateness of various types and intensities of transit service. It considered factors including densities of population, jobs, and 0-car households. Scores were classified into five categories (from ‘low’ to ‘high’). For more information, see<a href="https://www.dvrpc.org/Products/07005/" target="_new"> Creating a Regional Transit Score Protocol</a>.<br>
-                                    Rail stations, especially in suburban or rural areas, are important gathering points for people to use various types of transit.  They are included even if not captured by the Transit Score analysis.             
+                                    <p>The Transit Score assesses the appropriateness of various types and intensities of transit service. It considered factors including densities of population, jobs, and zero-car households. Scores were classified into five categories (from ‘low’ to ‘high’). For more information, see<a href="https://www.dvrpc.org/Products/07005/" target="_new"> Creating a Regional Transit Score Protocol</a>.<br>
+                                    Rail stations, especially in suburban or rural areas, are important gathering points for people that provide access to various types of transit.             
                                     </p>
                                     <p><b>Scoring</b><i>  (Transit Score and Rail Stations)</i><br>
-                                    <i class="glyphicon glyphicon-minus legend-red"></i> Road segments in traffic analysis zones (TAZs) with high or medium-high transit scores received one point.  Road segments within a 1-mile buffer of a rail stations received one point. All of the measures to Increase Accessibility and Mobility can combine to total a maximum of 2 points per link.<br><br>
-                                    All of the measures to Reduce Congestion can combine to total a maximum of 2 points per link.<br><br>
-                                    <i><b>Source:</b> DVRPC, Amtrak, NJ Transit, PATCO, SEPTA. </i>
+                                    <i class="glyphicon glyphicon-minus legend-red"></i> Road segments in traffic analysis zones (TAZs) with high or medium-high transit scores received 1.0 point.  Road segments within a 1-mile buffer of a rail stations received 1.0 point. <br><br>
+                                    All of the measures to Increase Accessibility, Mobility, and Reliability can combine to total a maximum of 3.0 points per link.<br><br>
+                                    <i><b>Sources:</b> DVRPC, Amtrak, NJ Transit, PATCO, SEPTA. </i>
 
                                     </p>
                                 </div>
                                 <div class="tab-pane fade" id="Planning">
                                     <h4 class="modal-title" style="color:black">Planning Time Index (PTI)</h4>
-                                    <p>PTI measures roadway reliability by comparing the 95th percentile travel time for a segment of road to the free-flow travel time for the same segment.  A PTI of 2.0 means that for a trip that takes 20 minutes under free-flow conditions, a traveler should budget a total of 40 minutes to ensure on-time arrival 95% of the time. It is normal and appropriate for PTI to increase somewhat during peak hours.
+                                    <p>PTI measures roadway reliability by comparing the 95th percentile travel time for a segment of road during the peak hour (7-8 AM and 5-6 PM) to the free-flow travel time for the same segment.  A PTI of 3.00 means that for a trip that takes 20 minutes under free-flow conditions, a traveler should budget a total of 60 minutes to ensure on-time arrival 95% of the time, which is equivalent to one work day a month 19/20, where one might expect to plan to leave 40 minutes earlier to arrive on time. It is normal and appropriate for PTI to increase somewhat during peak hours.
                                     </p>
-                                    <p><b>Scoring</b><i>  (Peak Hour PTI, 5-6 PM, all weekdays in 2013)</i>
+                                    <p><b>Scoring</b><i>  (Peak Hour PTI, 7-8 AM or 5-6 PM, whichever is greater, all weekdays in 2017)</i>
                                         <ul>
-                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than 3 (seriously unreliable)</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than 3 (highly unreliable)</li>
                                           <li><i class="glyphicon glyphicon-minus legend-orange"></i> Medium-High (0.5) = 2 - 3 (moderately unreliable)</li>
                                         </ul>
-                                    All of the measures to Increase Accessibility and Mobility can combine to total a maximum of 2 points per link.<br><br>
-                                    <i><b>Source:</b> University of Maryland Center for Advanced Transportation Technology (CATT) Laboratory Vehicle Probe Project Suite, DVRPC.</i>
+                                    All of the measures to Increase Accessibility, Mobility and Reliability can combine to total a maximum of 3.0 points per link.<br><br>
+                                    <i><b>Source:</b> INRIX, DVRPC.</i>
                                     </p>
                                 </div>
                             </div>
@@ -846,7 +832,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title modal-legend">Rebuild & Maintain Transportation Infrastructure</h4>
-                    <p>Our transportation system is both extensive and old. Pennsylvania has the highest number of structurally deficient state-maintained bridges in the nation, and 31 percent of the region’s state-maintained lane miles of pavement are in poor condition. SEPTA has rail bridges that are a century old, substations and signals from the 1930s, and trains from the 1970s. The rebuilding of the existing network of roads, transit lines, and other transportation facilities is the focus for transportation investments moving forward at the national, state, and regional level. We must continue to prioritize projects based on quantitative data to ensure that funds are spent efficiently and effectively. We must also plan for the future and preserve vital right of ways so that the system can expand. Utilizing abandoned rail lines as trails in the interim is one way in which key corridors can be preserved for future use. </p>
+                    <p>Our transportation system is both extensive and old. Pennsylvania has the second highest number of structurally deficient state-maintained bridges in the nation, and 38 percent of the region’s state-maintained lane miles of pavement are in poor condition. SEPTA has rail bridges that are a century old, substations and signals from the 1930s, and trains from the 1970s. The rebuilding of the existing network of roads, transit lines, and other transportation facilities is the focus for transportation investments moving forward at the national, state, and regional level. We must continue to prioritize projects based on quantitative data to ensure that funds are spent efficiently and effectively. We must also plan for the future and preserve vital right of ways so that the system can expand. Utilizing abandoned rail lines as trails in the interim is one way in which key corridors can be preserved for future use. </p>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -864,21 +850,21 @@
                             <div id="EXTODTabsContent" class="tab-content">
                                 <div class="tab-pane fade active in" id="Core">
                                     <h4 class="modal-title" style="color:black;font-weight:bold">Core Transportation Network </h4>
-                                    <p>Rebuilding and maintaining the region’s core network of transportation infrastructure is a key goal of the Long-Range Plan. This measure identifies all road links on the Enhanced National Highway System (NHS) including principal arterials; NHS connectors; existing passenger rail (including Amtrak); existing freight rail lines; major freight facilities including major rail yards, rail-truck intermodal yards, and ports (one-mile buffer); and the Philadelphia International Airport (one-mile buffer). 
+                                    <p>Rebuilding and maintaining the region’s core network of transportation infrastructure is a key goal of the Long-Range Plan. This measure identifies all road links on the Enhanced National Highway System (NHS) including principal arterials and NHS connectors. It identifies roadways within one-mile of existing passenger rail (including Amtrak) and existing freight rail lines.  It identifies roadways within major freight centers including; major rail yards, rail-truck intermodal yards, and ports; and within one-mile of the Philadelphia International Airport.
                                     </p>
                                     <p><b>Scoring</b><i>  (Core Transportation Network)</i><br>
-                                    <i class="glyphicon glyphicon-minus legend-blue"></i> Each of the above items received 0.5 points. The measures to Rebuild and Maintain Transportation Infrastructure can combine to total a maximum of 1 point per link.<br><br>
+                                    <i class="glyphicon glyphicon-minus legend-red"></i> Each of the above items received 0.5 points. The measures to Rebuild and Maintain Transportation Infrastructure can combine to total a maximum of 1 point per link.<br><br>
                                     <i><b>Source:</b> DVRPC.</i>
                                     </p>
                                 </div>
                                 <div class="tab-pane fade" id="Existing">
                                     <h4 class="modal-title" style="color:black">Existing Transit</h4>
-                                    <p>Roads with bus or trolley service, which are essential infrastructure for transit riders, were identified. “Substantial service” was defined as bus or trolley routes making three or more runs during the 5-6 PM peak hour in urban locations, or two or more runs in suburban locations. 
+                                    <p>Roads with bus or trolley service, which are essential infrastructure for transit riders, were identified. “Substantial service” was defined as bus or trolley routes making three or more runs during the 7-8 AM or 5-6 PM peak hour in urban locations, or two or more runs in suburban locations. 
                                     </p>
                                     <p><b>Scoring</b><i>  (Existing Transit)</i>
                                         <ul>
-                                          <li><i class="glyphicon glyphicon-minus legend-blue"></i> High (1) = Road links with substantial transit service</li>
-                                          <li><i class="glyphicon glyphicon-minus legend-green"></i> Medium (0.5) = Road links with any transit service</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Road links with substantial transit service</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-orange"></i> Medium (0.5) = Road links with any transit service</li>
                                         </ul>
                                     The measures to Rebuild and Maintain Transportation Infrastructure can combine to total a maximum of 1 point per link.<br><br>
                                     <i><b>Source:</b> DVRPC, Amtrak, NJ Transit, PATCO, SEPTA.</i>
@@ -903,26 +889,83 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title modal-legend">Create a Safer Transportation System</h4>
-                    <p>The region’s Transportation Safety Action Plan focuses on reducing crashes and fatalities on the regional roadway system by providing a roadmap for effective collaboration and coordination among safety professionals and stakeholders. Strategies for advancing this goal are detailed in agreed-upon key emphasis areas, which focus on various safety issues, including: aggressive driving, impaired driving, roadway departure crashes, and seatbelt use. The Transportation Safety Action Plan is a data-driven living document that is coordinated with New Jersey’s and Pennsylvania’s statewide safety plans. Pedestrian fatality rates are higher than the national average in both New Jersey and Pennsylvania, and in the DVRPC region. Both states are current FHWA Pedestrian Safety Focus States, and Philadelphia is a Focus City. Ensuring pedestrian safety is one of seven key emphasis areas identified in the Transportation Safety Action Plan.</p>
+                    <p>The region’s Transportation Safety Action Plan focuses on reducing crashes and fatalities on the regional roadway system by providing a roadmap for effective collaboration and coordination among safety professionals and stakeholders. Strategies for advancing this goal are detailed in agreed-upon key emphasis areas, which focus on various safety issues, including: aggressive driving, impaired driving, roadway departure crashes, and seatbelt use. The Transportation Safety Action Plan is a data-driven living document that is coordinated with New Jersey’s and Pennsylvania’s statewide safety plans. </p>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-xs-4">
                           <ul id="reduceTabs" class="nav nav-tabs nav-stacked nav-left">
-                              <li class="active">
-                                  <a href="#map" data-target="#Crash" role="tab" data-toggle="tab">Crash Rate </a>
+                             <li class="active">
+                                  <a href="#map" data-target="#Crash1" role="tab" data-toggle="tab">Crash Severity</a>
+                              </li>
+                              <li>
+                                  <a href="#map" data-target="#Crash2" role="tab" data-toggle="tab" >Crash Frequency</a>
+                              </li>  
+                          </ul>
+                        </div>
+                        <div class="col-xs-8">
+                            <div id="EXTODTabsContent" class="tab-content">
+                                <div class="tab-pane fade active in" id="Crash1">
+                                    <h4 class="modal-title" style="color:black;font-weight:bold">Crash Severity </h4>
+                                    <p>This measure identified road segments with four or more kills or major injuries per mile of roadway.  Crashes were analyzed over 5-years (2013-2017).
+                                    </p>
+                                    <p><b>Scoring</b><i>  (High Crash Severity)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-red"></i> The measures to Create a Safer Transportation System can combine to total a maximum of 1.0 point per link.<br><br>
+                                    <i><b>Source:</b> NJDOT, PennDOT, DVRPC.</i>
+                                    </p>
+                                </div>
+                                  <div class="tab-pane fade" id="Crash2">
+                                    <h4 class="modal-title" style="color:black;font-weight:bold">Crash Frequency </h4>
+                                    <p>This measure identifies road segments where the actual crash rate is four or more times the average rate for a type of roadway.  Crash rates are calculated as crashes per one-hundred million vehicles-miles traveled, and are analyzed over 5-years (2013-2017).  Roadway types include urban or rural, divided or undivided, limited access or no access control, and ones with roadway width and annual average daily traffic thresholds.  Average crash rates are assigned to each combination of roadway types. 
+                                    </p>
+                                    <p><b>Scoring</b><i>  (High Crash Frequency)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-red"></i> Road segments where the actual crash rate was four or more times the average rate for a type of roadway received 0.5 points. <br><br>
+                                    The measures to Create a Safer Transportation System can combine to total a maximum of 1.0 point per link.<br><br>
+                                    <i><b>Source:</b> NJDOT, PennDOT, DVRPC.</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal --> 
+<!-- end Category Modal -->
+!-- start Category Modal -->
+    <div class="modal fade" id="Freight">
+        <div class="modal-dialog modal-lg" style="width: 875px;">
+            <div class="modal-content" style="overflow:hidden">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title modal-legend">Facilitate Goods Movement</h4>
+                    <p>Increasing freight shipments and deliveries indicate a vibrant and growing economy.  However, the growth of truck freight is a major contributor to congestion in urban areas and on intercity routes, where congestion affects the timeliness and reliability of freight transportation.  This measure helps to assess freight truck congestion.  </p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                          <ul id="reduceTabs" class="nav nav-tabs nav-stacked nav-left">
+                             <li class="active">
+                                  <a href="#map" data-target="#TTTI" role="tab" data-toggle="tab">Truck Travel Time Index (TTTI)</a>
                               </li>
                           </ul>
                         </div>
                         <div class="col-xs-8">
                             <div id="EXTODTabsContent" class="tab-content">
-                                <div class="tab-pane fade active in" id="Crash">
-                                    <h4 class="modal-title" style="color:black;font-weight:bold">Crash Rate </h4>
-                                    <p>This measure identified road segments with a high crash rate compared to the rate for that functional class of road.  Roads in NJ or PA were compared to ones in the Delaware Valley counties in that state.  To focus on where crashes would cause the most congestion, the results were refined with where the V/C ratio was greater than or equal to 0.5, other than on interstates.  Results on interstate highways were not further refined because crashes there affect so many people. 
+                                <div class="tab-pane fade active in" id="TTTI">
+                                    <h4 class="modal-title" style="color:black;font-weight:bold">Truck Travel Time Index (TTTI)</h4>
+                                    <p>This measure uses truck only travel times on the National Highway System from the NPMRDS data, separate from the PM3 measures, to identify congested locations due to truck traffic.  It is defined as the ratio of the observed truck travel time to the free-flow truck travel time by roadway segment.  Free-flow values are based on observed speeds for all time periods.  Roadways with a TTTI between 2.00 and 3.00 are considered moderately congested and ones greater than 3.00 are highly congested for weekdays peak hours 7-8 AM and 5-6 PM.
                                     </p>
-                                    <p><b>Scoring</b><i>  (Crash Rate, 2013)</i><br>
-                                    <i class="glyphicon glyphicon-minus legend-red"></i> Road segments where the crash rate was two or more times the rate for that functional class in that state’s part of the DVRPC region AND where the V/C ratio was greater than or equal to 0.5 received 1 point. Segments on interstate routes received one point if the crash rate was two or more times the rate for that functional class in that state’s part of the DVRPC region, regardless of V/C ratio.<br><br>
-                                    <i><b>Source:</b> NJDOT, PennDOT.</i>
+                                    <p><b>Scoring</b><i>  (High Crash Severity)</i><br>
+                                     <ul>
+                                          <li><i class="glyphicon glyphicon-minus legend-red"></i> High (1) = Greater than 3.00 (highly congested)</li>
+                                          <li><i class="glyphicon glyphicon-minus legend-orange"></i> Medium (0.5) = 2.00 - 3.00 (moderately congested)</li>
+                                        </ul>
+                                    The measure to Facilitate Goods Movement can combine to total a maximum of 1.0 point per link.<br><br>
+                                    <i><b>Sources:</b> NPMRDS, Center for Advanced Transportation Technology Laboratory (CATT Lab) Probe Data Analytics (PDA) Software</i>
                                     </p>
                                 </div>
                             </div>
@@ -1056,7 +1099,70 @@
     </div>
     <!-- /.modal --> 
 <!-- end Category Modal -->
+ <div class="modal fade" id="PM3">
+        <div class="modal-dialog modal-lg" style="width: 875px;">
+            <div class="modal-content" style="overflow:hidden">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title modal-legend">Integrate PM3 Measures</h4>
+                    <p>Transportation projects should support the four core plan principles of managing growth and protecting the environment; creating livable communities; building the economy; and establishing a modern, multimodal transportation system. In particular, investments should serve areas that are either already developed or designated as appropriate for future growth, encourage growth and reinvestment in the region’s Centers, have limited environmental impact, and support key economic sectors. Potential projects are evaluated to make sure that they help achieve the key principles outlined in the Plan.</p>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                          <ul id="reduceTabs" class="nav nav-tabs nav-stacked nav-left">
+                              <li class="active">
+                                  <a href="#map" data-target="#Green" role="tab" data-toggle="tab">Low Green Infrastructure Screening Tool score (less harm to environment)</a>
+                              </li>
+                              <li>
+                                  <a href="#map" data-target="#Infill" role="tab" data-toggle="tab">Connections 2040 Infill and Redevelopment areas, Emerging Growth areas</a>
+                              </li>
+                               <li>
+                                  <a href="#map" data-target="#Centers" role="tab" data-toggle="tab" >Connections 2040 Land Use Centers</a>
+                              </li>   
+                          </ul>
+                        </div>
+                        <div class="col-xs-8">
+                            <div id="EXTODTabsContent" class="tab-content">
+                                <div class="tab-pane fade active in" id="Green">
+                                    <h4 class="modal-title" style="color:black;font-weight:bold">Low Green Infrastructure Screening Tool score (less harm to environment)</h4>
+                                    <p>The Green Infrastructure Screening Tool (GIST) was developed to analyze the environmental impact of transportation projects for the Long-Range Plan.  It incorporates a wide range of environmental factors. This measure was used to identify road segments in areas where investment will likely have fewer environmental impacts.          
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Low GIST score))</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-blue"></i> Road links within the lowest impact range (0-2) of GIST scores received half a point. All of the measures to Ensure Transportation Investments Support LRP Principles can combine to total a maximum of 1 point per link.<br><br>
+                                    <i><b>Source:</b> DVRPC. </i>
 
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="Infill">
+                                    <h4 class="modal-title" style="color:black">Connections 2040 Infill and Redevelopment areas, Emerging Growth areas</h4>
+                                    <p>This measure identifies road links within Infill and Redevelopment areas, and Emerging Growth areas from the Connections 2040 Long-Range Plan. After Land Use Centers, Infill and Redevelopment areas, followed by Emerging Growth area, are the priorities for investment.
+                                    </p>
+                                    <p><b>Scoring</b><i>  (Infill and Redevelopment areas, Emerging Growth areas)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-blue"></i> Road links within Infill and Redevelopment areas, and Emerging Growth areas received half a point. All of the measures to Ensure Transportation Investments Support LRP Principles can combine to total a maximum of 1 point per link. <br><br>
+                                    <i><b>Source:</b> DVRPC. </i>
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="Centers">
+                                    <h4 class="modal-title" style="color:black">Connections 2040 Land Use Centers</h4>
+                                    <p>This measure identifies road links within Land Use Centers from the Connections 2040 Long-Range Plan. Centers are the highest priority areas for investment in the regional transportation network.   
+                                    </p>    
+                                   <p><b>Scoring</b><i>  (Land Use Centers)</i><br>
+                                    <i class="glyphicon glyphicon-minus legend-blue"></i> Road links within Land Use Centers received half a point. All of the measures to Ensure Transportation Investments Support LRP Principles can combine to total a maximum of 1 point per link.<br><br>
+                                    <i><b>Source:</b> DVRPC. </i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal --> 
+<!-- end Category Modal -->
     <div class="modal fade" id="PMModal">
         <div class="modal-dialog">
             <div class="modal-content">
